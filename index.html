@@ -478,10 +478,18 @@
     border: 1px solid var(--slate-200);
     border-radius: 32px;
     display: flex;
-    gap: 2px;
+    gap: 3px;
     padding: 3px;
     height: 44px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  .task-manager-tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .task-manager-tabs__button {
@@ -500,6 +508,9 @@
     align-items: center;
     justify-content: center;
     transition: all 0.15s ease;
+    flex-shrink: 0;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .task-manager-tabs__button:hover {
@@ -861,7 +872,7 @@
   .toast.success { background: #0f172a; border-left: 4px solid var(--success); }
   .toast.info { background: #0f172a; border-left: 4px solid var(--primary); }
 
-  /* Responsive */
+  /* Responsive Styles: Desktop & Mobile UX */
   @media (max-width: 960px) {
     .list-header, .doc-row {
       grid-template-columns: 2fr 1fr 1.5fr;
@@ -872,27 +883,298 @@
     }
   }
 
-  @media (max-width: 680px) {
-    .hub { padding: 20px 16px; }
-    .hub-top { flex-direction: column; align-items: flex-start; }
-    .upload-banner { padding: 16px; }
-    .upload-banner-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .progress-card { gap: 24px; padding: 20px; }
-    .progress-stats { gap: 20px; }
-    .list-header { display: none; }
-    .doc-row {
-      grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    .hub {
+      padding: 16px 14px 48px;
+    }
+
+    .hub-top {
+      flex-direction: column;
+      align-items: flex-start;
       gap: 12px;
-      padding: 18px 20px;
+      margin-bottom: 16px;
     }
-    .doc-row .type-cell, .doc-row .status-cell {
-      padding-left: 54px;
+
+    .hub-title-block h1 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .hub-meta {
+      font-size: 12px;
+      gap: 12px;
+    }
+
+    .hub-save-status {
+      width: 100%;
+      justify-content: center;
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    /* Live Upload In-Progress Banner on Mobile */
+    .upload-banner {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    .upload-banner-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .upload-banner-warning {
+      font-size: 12px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Progress Dashboard Card on Mobile */
+    .progress-card {
+      padding: 18px 16px;
+      border-radius: 14px;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .progress-ring-wrap {
+      margin: 0 auto;
+      width: 72px;
+      height: 72px;
+    }
+
+    .progress-ring-wrap svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    .progress-ring-text {
+      font-size: 15px;
+    }
+
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .stat {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 10px;
+      padding: 10px 12px;
+      gap: 2px;
+    }
+
+    .stat:first-child {
+      grid-column: span 2;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    .stat:first-child .stat-label {
+      order: 1;
+    }
+
+    .stat:first-child .stat-num {
+      order: 2;
+      font-size: 20px;
+    }
+
+    .stat-num {
+      font-size: 18px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+    }
+
+    /* Toolbar & Mobile Horizontal Scrollable Tab Bar */
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .task-manager-tabs {
+      width: 100%;
+      height: 44px;
+      padding: 3px 4px;
+      border-radius: 32px;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .task-manager-tabs__button {
+      padding: 7px 14px;
       font-size: 13px;
+      flex: 0 0 auto;
     }
-    .action-cell { padding-left: 54px; }
-    .toolbar { flex-direction: column; align-items: stretch; }
-    .feed-v2__search-shell { max-width: none; width: 100%; }
-    .task-manager-tabs { overflow-x: auto; width: 100%; }
+
+    .feed-v2__search-shell {
+      max-width: none;
+      width: 100%;
+      height: 44px;
+    }
+
+    /* Document List & Cards on Mobile */
+    .list-wrap {
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .list-header {
+      display: none;
+    }
+
+    .doc-row {
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 18px 16px !important;
+      border: 1px solid var(--slate-200) !important;
+      border-radius: 16px !important;
+      background: var(--white) !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+      gap: 12px !important;
+      margin-bottom: 0 !important;
+      border-top: 1px solid var(--slate-200) !important;
+    }
+
+    .doc-row.row-uploading {
+      background: #f8faff !important;
+      border-color: var(--primary-border) !important;
+    }
+
+    .doc-row .doc-cell {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      width: 100%;
+      padding: 0 !important;
+    }
+
+    .doc-row .doc-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .doc-row .doc-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .doc-row .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-row .doc-name {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .doc-row .doc-sub {
+      font-size: 12.5px;
+      color: var(--slate-500);
+      margin-top: 4px;
+    }
+
+    .doc-row .type-cell {
+      display: none !important;
+    }
+
+    .doc-row .status-cell {
+      padding: 0 !important;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--slate-700);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .doc-row .action-cell {
+      padding-top: 14px !important;
+      border-top: 1px solid var(--slate-100) !important;
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .doc-row .action-cell .btn {
+      height: 40px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      flex: 1 1 auto;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .doc-row .action-cell .btn-primary {
+      box-shadow: 0 1px 2px rgba(47, 75, 255, 0.2);
+    }
+
+    .doc-row .action-cell .btn-secondary {
+      border: 1px solid var(--slate-300);
+    }
+
+    .doc-row .action-cell .task-manager-row-action {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 8px;
+    }
+
+    /* Footer & Branding on Mobile */
+    .footer-bar {
+      margin-top: 16px;
+      padding-top: 14px;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .hub-branding-footer {
+      margin-top: 32px;
+      padding-top: 20px;
+    }
+
+    /* Toast on Mobile */
+    .toast {
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      max-width: none;
+      justify-content: center;
+      text-align: center;
+    }
   }
 </style>
 </head>
@@ -1016,14 +1298,14 @@
     </div>
 
     <!-- 2: Tax declaration (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-2" data-category="required forms pending" data-title="Tax declaration JotForm Estimated 3 min">
+    <div class="doc-row" id="doc-row-2" data-category="required forms pending" data-title="Tax declaration Go to link fill form submit Required">
       <div class="doc-cell">
         <div class="doc-icon form" id="doc-icon-2">
           <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </div>
         <div class="doc-info">
           <div class="doc-name">Tax declaration <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-2">JotForm · Estimated 3 min</div>
+          <div class="doc-sub" id="doc-sub-2">Go to link → fill form → submit</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1060,7 +1342,7 @@
     </div>
 
     <!-- 4: NRC (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-4" data-category="completed upload" data-title="NRC National Registration Card Optional Uploaded Aug 17 1.2 MB">
+    <div class="doc-row" id="doc-row-4" data-category="completed upload" data-title="NRC National Registration Card Optional Uploaded Aug 17 10:45 AM">
       <input type="file" class="hidden-file-input" id="file-input-4" onchange="handleFileSelected(4, 'NRC', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-4">
@@ -1068,7 +1350,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">NRC <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-4">Uploaded Aug 17 · 1.2 MB</div>
+          <div class="doc-sub" id="doc-sub-4">Uploaded Aug 17, 10:45 AM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1085,7 +1367,7 @@
     </div>
 
     <!-- 5: Bank statement (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-5" data-category="required completed upload" data-title="Bank statement Required Uploaded Aug 16 2.4 MB">
+    <div class="doc-row" id="doc-row-5" data-category="required completed upload" data-title="Bank statement Required Uploaded Aug 16 02:30 PM">
       <input type="file" class="hidden-file-input" id="file-input-5" onchange="handleFileSelected(5, 'Bank statement', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-5">
@@ -1093,7 +1375,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Bank statement <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-5">Uploaded Aug 16 · 2.4 MB</div>
+          <div class="doc-sub" id="doc-sub-5">Uploaded Aug 16, 02:30 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1110,7 +1392,7 @@
     </div>
 
     <!-- 6: RC (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-6" data-category="completed upload" data-title="RC Vehicle Registration Certificate Optional Uploaded Aug 16 800 KB">
+    <div class="doc-row" id="doc-row-6" data-category="completed upload" data-title="RC Vehicle Registration Certificate Optional Uploaded Aug 16 09:15 AM">
       <input type="file" class="hidden-file-input" id="file-input-6" onchange="handleFileSelected(6, 'RC', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-6">
@@ -1118,7 +1400,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">RC <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-6">Uploaded Aug 16 · 800 KB</div>
+          <div class="doc-sub" id="doc-sub-6">Uploaded Aug 16, 09:15 AM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1135,7 +1417,7 @@
     </div>
 
     <!-- 7: Proof of Address (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-7" data-category="required completed upload" data-title="Proof of address Utility bill Lease agreement Required Uploaded Aug 15 1.5 MB">
+    <div class="doc-row" id="doc-row-7" data-category="required completed upload" data-title="Proof of address Utility bill Lease agreement Required Uploaded Aug 15 04:30 PM">
       <input type="file" class="hidden-file-input" id="file-input-7" onchange="handleFileSelected(7, 'Proof of address', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-7">
@@ -1143,7 +1425,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Proof of address <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-7">Uploaded Aug 15 · 1.5 MB (Utility bill)</div>
+          <div class="doc-sub" id="doc-sub-7">Uploaded Aug 15, 04:30 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1160,14 +1442,14 @@
     </div>
 
     <!-- 8: Direct Deposit Authorization (Required, Form, Completed) -->
-    <div class="doc-row" id="doc-row-8" data-category="required forms completed" data-title="Direct deposit authorization Banking form Required Submitted Aug 15">
+    <div class="doc-row" id="doc-row-8" data-category="required forms completed" data-title="Direct deposit authorization Banking form Required Submitted Aug 15 01:15 PM">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-8">
           <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div class="doc-info">
           <div class="doc-name">Direct deposit authorization <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-8">Submitted Aug 15 · Verified bank details</div>
+          <div class="doc-sub" id="doc-sub-8">Submitted Aug 15, 01:15 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1181,7 +1463,7 @@
     </div>
 
     <!-- 9: NDA Agreement (Required, Template, Completed) -->
-    <div class="doc-row" id="doc-row-9" data-category="required templates completed" data-title="NDA Agreement Non-disclosure agreement Required Uploaded Aug 14 620 KB">
+    <div class="doc-row" id="doc-row-9" data-category="required templates completed" data-title="NDA Agreement Non-disclosure agreement Required Uploaded Aug 14 02:45 PM">
       <input type="file" class="hidden-file-input" id="file-input-9" onchange="handleFileSelected(9, 'NDA Agreement', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-9">
@@ -1189,7 +1471,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Non-disclosure agreement (NDA) <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-9">Uploaded Aug 14 · 620 KB (Signed PDF)</div>
+          <div class="doc-sub" id="doc-sub-9">Uploaded Aug 14, 02:45 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1247,14 +1529,14 @@
     </div>
 
     <!-- 12: Emergency Contact Information (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-12" data-category="required forms pending" data-title="Emergency contact form Next of kin Required Estimated 2 min">
+    <div class="doc-row" id="doc-row-12" data-category="required forms pending" data-title="Emergency contact form Next of kin Required Go to link fill form submit">
       <div class="doc-cell">
         <div class="doc-icon form" id="doc-icon-12">
           <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </div>
         <div class="doc-info">
           <div class="doc-name">Emergency contact form <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-12">Online Form · Estimated 2 min</div>
+          <div class="doc-sub" id="doc-sub-12">Go to link → fill form → submit</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1268,7 +1550,7 @@
     </div>
 
     <!-- 13: Educational degree / Diploma (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-13" data-category="required completed upload" data-title="Educational degree Diploma Transcript Required Uploaded Aug 14 3.1 MB">
+    <div class="doc-row" id="doc-row-13" data-category="required completed upload" data-title="Educational degree Diploma Transcript Required Uploaded Aug 14 11:20 AM">
       <input type="file" class="hidden-file-input" id="file-input-13" onchange="handleFileSelected(13, 'Degree certificates', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-13">
@@ -1276,7 +1558,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Degree certificates / Transcripts <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-13">Uploaded Aug 14 · 3.1 MB (PDF)</div>
+          <div class="doc-sub" id="doc-sub-13">Uploaded Aug 14, 11:20 AM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1313,14 +1595,14 @@
     </div>
 
     <!-- 15: Code of Conduct Acknowledgment (Required, Form, Completed) -->
-    <div class="doc-row" id="doc-row-15" data-category="required forms completed" data-title="Code of Conduct Acknowledgment Ethics agreement Required Submitted Aug 13">
+    <div class="doc-row" id="doc-row-15" data-category="required forms completed" data-title="Code of Conduct Acknowledgment Ethics agreement Required Submitted Aug 13 03:40 PM">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-15">
           <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div class="doc-info">
           <div class="doc-name">Code of conduct acknowledgment <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-15">Submitted Aug 13 · Electronically signed</div>
+          <div class="doc-sub" id="doc-sub-15">Submitted Aug 13, 03:40 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1334,7 +1616,7 @@
     </div>
 
     <!-- 16: Professional Reference Letters (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-16" data-category="completed upload" data-title="Professional reference letters Recommendation letters Optional Uploaded Aug 13 950 KB">
+    <div class="doc-row" id="doc-row-16" data-category="completed upload" data-title="Professional reference letters Recommendation letters Optional Uploaded Aug 13 05:10 PM">
       <input type="file" class="hidden-file-input" id="file-input-16" onchange="handleFileSelected(16, 'Reference letters', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-16">
@@ -1342,7 +1624,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Reference letters <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-16">Uploaded Aug 13 · 950 KB (2 letters)</div>
+          <div class="doc-sub" id="doc-sub-16">Uploaded Aug 13, 05:10 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1356,7 +1638,7 @@
     </div>
 
     <!-- 17: Previous Employer Relieving Letter (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-17" data-category="required completed upload" data-title="Previous employer relieving letter Experience certificate Required Uploaded Aug 12 1.1 MB">
+    <div class="doc-row" id="doc-row-17" data-category="required completed upload" data-title="Previous employer relieving letter Experience certificate Required Uploaded Aug 12 01:25 PM">
       <input type="file" class="hidden-file-input" id="file-input-17" onchange="handleFileSelected(17, 'Previous relieving letter', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-17">
@@ -1364,7 +1646,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Previous relieving letter <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-17">Uploaded Aug 12 · 1.1 MB</div>
+          <div class="doc-sub" id="doc-sub-17">Uploaded Aug 12, 01:25 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1400,7 +1682,7 @@
     </div>
 
     <!-- 19: Photo ID Verification (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-19" data-category="required completed upload" data-title="Photo ID Verification Driving license State ID Required Uploaded Aug 11 1.8 MB">
+    <div class="doc-row" id="doc-row-19" data-category="required completed upload" data-title="Photo ID Verification Driving license State ID Required Uploaded Aug 11 10:10 AM">
       <input type="file" class="hidden-file-input" id="file-input-19" onchange="handleFileSelected(19, 'Photo ID verification', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-19">
@@ -1408,7 +1690,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Photo ID verification <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-19">Uploaded Aug 11 · 1.8 MB (Driver's License)</div>
+          <div class="doc-sub" id="doc-sub-19">Uploaded Aug 11, 10:10 AM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1422,7 +1704,7 @@
     </div>
 
     <!-- 20: Health Insurance Enrollment (Optional, Template, Completed) -->
-    <div class="doc-row" id="doc-row-20" data-category="templates completed" data-title="Health Insurance Enrollment Medical benefits form Optional Uploaded Aug 10 740 KB">
+    <div class="doc-row" id="doc-row-20" data-category="templates completed" data-title="Health Insurance Enrollment Medical benefits form Optional Uploaded Aug 10 04:50 PM">
       <input type="file" class="hidden-file-input" id="file-input-20" onchange="handleFileSelected(20, 'Health insurance election', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-20">
@@ -1430,7 +1712,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Health insurance election <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-20">Uploaded Aug 10 · 740 KB (Filled PDF)</div>
+          <div class="doc-sub" id="doc-sub-20">Uploaded Aug 10, 04:50 PM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1444,7 +1726,7 @@
     </div>
 
     <!-- 21: Resume / Curriculum Vitae (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-21" data-category="required completed upload" data-title="Resume CV Curriculum Vitae Required Uploaded Aug 10 450 KB">
+    <div class="doc-row" id="doc-row-21" data-category="required completed upload" data-title="Resume CV Curriculum Vitae Required Uploaded Aug 10 09:30 AM">
       <input type="file" class="hidden-file-input" id="file-input-21" onchange="handleFileSelected(21, 'Resume / CV', this)">
       <div class="doc-cell">
         <div class="doc-icon done" id="doc-icon-21">
@@ -1452,7 +1734,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Updated Resume / CV <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-21">Uploaded Aug 10 · 450 KB (PDF)</div>
+          <div class="doc-sub" id="doc-sub-21">Uploaded Aug 10, 09:30 AM</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1466,14 +1748,14 @@
     </div>
 
     <!-- 22: Background Check Consent (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-22" data-category="required forms pending" data-title="Background check consent Verification authorization Required Estimated 3 min">
+    <div class="doc-row" id="doc-row-22" data-category="required forms pending" data-title="Background check consent Verification authorization Required Go to link fill form submit">
       <div class="doc-cell">
         <div class="doc-icon form" id="doc-icon-22">
           <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </div>
         <div class="doc-info">
           <div class="doc-name">Background check consent <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-22">Online Authorization Form · Estimated 3 min</div>
+          <div class="doc-sub" id="doc-sub-22">Go to link → fill form → submit</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1517,7 +1799,7 @@
         </div>
         <div class="doc-info">
           <div class="doc-name">Manager onboarding checklist <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-24">Download template → complete review → upload</div>
+          <div class="doc-sub" id="doc-sub-24">Download template → fill → upload</div>
         </div>
       </div>
       <div class="type-cell">
@@ -1725,8 +2007,21 @@
         icon.className = 'doc-icon done';
         icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
       }
+  function format12HrDateTime() {
+    const now = new Date();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[now.getMonth()];
+    const day = now.getDate();
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${month} ${day}, ${hours}:${minutes} ${ampm}`;
+  }
+
       if (sub) {
-        sub.textContent = `Uploaded just now · ${fileSize}`;
+        sub.textContent = `Uploaded ${format12HrDateTime()}`;
       }
       if (statusCell) {
         statusCell.innerHTML = `<span class="status-dot done"></span> Completed`;
@@ -1774,7 +2069,7 @@
           icon.className = 'doc-icon done';
           icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
         }
-        if (sub) sub.textContent = 'Submitted just now · Online Form';
+        if (sub) sub.textContent = `Submitted ${format12HrDateTime()}`;
         if (statusCell) statusCell.innerHTML = `<span class="status-dot done"></span> Completed`;
         if (actionCell) {
           actionCell.innerHTML = `<button class="btn btn-ghost" onclick="showToast('Viewing submission for ${docName}...', 'info')">View response</button>`;
@@ -1864,7 +2159,7 @@
         }
 
         if (matchesTab && matchesSearch) {
-          row.style.display = 'grid';
+          row.style.display = '';
           visibleCount++;
         } else {
           row.style.display = 'none';
