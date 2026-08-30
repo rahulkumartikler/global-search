@@ -2,2330 +2,2517 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document Submission Hub — Tikler</title>
-<!-- Google Fonts: Roboto -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tikler — Advanced search</title>
 <style>
-  :root {
-    --primary: #2f4bff;
-    --primary-hover: #4450d5;
-    --primary-focus: #0022ff;
-    --primary-active: #001bcc;
-    --primary-light: #eff6ff;
-    --primary-subtle: #f5f6ff;
-    --primary-border: #dbeafe;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap');
 
-    --slate-950: #020618;
-    --slate-900: #0f172a;
-    --slate-800: #1c1a27;
-    --slate-700: #334155;
-    --slate-600: #47464f;
-    --slate-500: #62748e;
-    --slate-400: #90a1b9;
-    --slate-300: #cbd5e1;
-    --slate-200: #e2e8f0;
-    --slate-100: #f1f5f9;
-    --slate-50: #f8fafc;
-    --white: #ffffff;
+:root {
+  /* Tikler v2 Design System Tokens */
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --ink: #020618;
+  --ink-heading: #020618;
+  --ink-soft: #334155;
+  --ink-muted: #64748b;
+  --ink-faint: #94a3b8;
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --border-focus: #80bdff;
+  
+  /* Brand Accents */
+  --accent: #2f4bff;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --accent-tint: #e5e9ff;
+  --accent-ring: rgba(47, 75, 255, 0.2);
+  
+  /* Status Colors */
+  --success: #059669;
+  --success-soft: #ecfdf5;
+  --success-border: #a7f3d0;
+  --danger: #ef4444;
+  --danger-soft: #fef2f2;
+  --danger-border: #fecaca;
+  --warn: #d97706;
+  --warn-soft: #fffbeb;
+  --warn-border: #fde68a;
+  
+  --font-ui: "Roboto", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
 
-    --danger: #ef4444;
-    --danger-bg: #ffe2e2;
-    --danger-border: #fecaca;
-    --danger-hover: #fee2e2;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
 
-    --warning: #b45309;
-    --warning-bg: #fef3c7;
-    --warning-border: #fde68a;
+.app {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
 
-    --success: #16a34a;
-    --success-bg: #dcfce7;
-    --success-border: #bbf7d0;
+/* Header & Topbar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.crumb {
+  font-size: 14px;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.crumb b {
+  color: var(--ink-heading);
+  font-weight: 600;
+  font-size: 18px;
+}
 
-    --purple: #7c3aed;
-    --purple-bg: #f5f3ff;
-    --purple-border: #ede9fe;
+/* Tikler Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 32px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--ink-soft);
+  text-decoration: none;
+  min-height: 38px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.btn:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cad5e2;
+  color: #1e293b;
+}
+.btn:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
-    --font-family: "Roboto", "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+.btn-accent {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(47, 75, 255, 0.25);
+}
+.btn-accent:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(47, 75, 255, 0.35);
+  color: #ffffff;
+}
+.btn-accent:focus {
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.btn-stop {
+  background: #fef2f2;
+  border: 1px solid var(--danger-border);
+  color: var(--danger);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.15);
+}
+.btn-stop:hover:not(:disabled) {
+  background: #fee2e2;
+  border-color: var(--danger);
+  color: #b91c1c;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+  min-height: 34px;
+}
+.btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Layout Grid */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Left Sidebar Rail (Saved Searches) */
+.rail-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin: 4px 0 12px 10px;
+}
+.saved-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+.saved-item::before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  bottom: 10px;
+  width: 3.5px;
+  border-radius: 4px;
+  background: var(--dot);
+}
+.saved-item:hover {
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.saved-item.active {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.saved-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  flex: 1;
+  color: var(--ink-heading);
+}
+.saved-count {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  background: #f1f5f9;
+  color: var(--ink-muted);
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.new-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-top: 8px;
+  border: 1px dashed var(--border-hover);
+  background: var(--surface);
+  transition: all 0.15s ease;
+}
+.new-search:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.new-search svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Search Card & Header */
+.search-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.25s ease;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  background: #ffffff;
+  cursor: pointer;
+  user-select: none;
+}
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card-header-title {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--ink-heading);
+  margin: 0;
+}
+.active-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-tint);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.collapse-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.collapse-toggle:hover {
+  background: #f8fafc;
+  border-color: #cad5e2;
+  color: var(--ink-heading);
+}
+.chevron-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+}
+.search-card.collapsed .chevron-icon {
+  transform: rotate(-180deg);
+}
+
+/* WebSocket Progress Bar */
+.progress-bar-wrap {
+  height: 4px;
+  width: 100%;
+  background: #f1f5f9;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+.progress-bar-wrap.active {
+  display: block;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #2f4bff, #60a5fa);
+  transition: width 0.3s ease;
+}
+
+/* WebSocket Live Streaming Status Banner */
+.progress-status-strip {
+  display: none;
+  background: #f0f7ff;
+  border-bottom: 1px solid #dbeafe;
+  padding: 10px 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: #1e40af;
+}
+.progress-status-strip.active {
+  display: flex;
+}
+.progress-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(47, 75, 255, 0.7);
+  animation: pulse-ring 1.5s infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 75, 255, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(47, 75, 255, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 75, 255, 0); }
+}
+
+/* Collapsed Summary Bar */
+.collapsed-summary-bar {
+  display: none;
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.search-card.collapsed .collapsed-summary-bar {
+  display: flex;
+}
+.summary-chips-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.summary-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.summary-chip b {
+  color: var(--ink-heading);
+}
+
+/* Stepper Body Container */
+.steps-container {
+  display: block;
+  transition: max-height 0.3s ease;
+}
+.search-card.collapsed .steps-container {
+  display: none;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 18px;
+  padding: 22px 26px;
+  position: relative;
+  transition: opacity 0.2s ease;
+}
+.step + .step {
+  border-top: 1px solid var(--border);
+}
+.step.locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.dot-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  margin-top: 3px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.dot.reachable {
+  border-color: var(--ink-faint);
+}
+.dot.done {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.dot-line {
+  flex: 1;
+  width: 2px;
+  background: var(--border);
+  margin-top: 8px;
+  min-height: 16px;
+}
+.step:last-child .dot-line {
+  display: none;
+}
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+.hint {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+}
+
+/* Segmented Scope Pill */
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  padding: 4px;
+  background: #f1f5f9;
+}
+.seg button {
+  border: none;
+  background: transparent;
+  padding: 7px 20px;
+  border-radius: 24px;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  color: var(--ink-muted);
+  transition: all 0.15s ease;
+}
+.seg button:hover:not(.sel) {
+  color: var(--ink-heading);
+}
+.seg button.sel {
+  background: var(--surface);
+  color: var(--ink-heading);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Tag Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: all 0.15s ease;
+}
+.chip svg {
+  width: 13px;
+  height: 13px;
+}
+.chip.sel {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(47, 75, 255, 0.2);
+}
+.pill-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pill-x svg {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.pill-x:hover svg {
+  opacity: 1;
+}
+
+/* Combobox & Primary Textbox Styles */
+.combo-wrap {
+  position: relative;
+}
+.combo-input,
+select,
+input[type=text],
+input[type=date],
+input[type=number] {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  padding: 9px 12px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  color: #1f2937;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+.combo-input::placeholder,
+input::placeholder {
+  color: var(--ink-faint);
+  opacity: 1;
+}
+.combo-input:hover:not(:disabled),
+select:hover:not(:disabled),
+input:hover:not(:disabled) {
+  border-color: #80bdff;
+}
+.combo-input:focus,
+select:focus,
+input:focus {
+  box-shadow: rgb(38, 132, 255) 0px 0px 0px 1px, 0 0 0 3px rgba(47, 75, 255, 0.15);
+  border-color: #80bdff;
+  background: #ffffff;
+}
+
+.combo-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: auto;
+  z-index: 30;
+  padding: 6px;
+}
+.combo-wrap.open .combo-panel {
+  display: block;
+}
+.combo-group-label {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  padding: 9px 10px 4px;
+  font-weight: 600;
+}
+.combo-subgroup-label {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  padding: 4px 10px 2px 20px;
+  font-style: italic;
+}
+.combo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--ink-heading);
+  transition: background 0.12s ease;
+}
+.combo-item:hover {
+  background: #f1f5f9;
+}
+.combo-item svg {
+  width: 15px;
+  height: 15px;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+
+/* Fields & Dynamic Filters */
+.subrow {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+input.mono {
+  font-family: var(--font-mono);
+}
+
+.filter-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.remove-x {
+  color: var(--ink-faint);
+  padding: 9px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.remove-x:hover {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+.remove-x svg {
+  width: 16px;
+  height: 16px;
+}
+.add-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed var(--border-hover);
+  background: var(--surface);
+  color: var(--ink-soft);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+.add-filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.add-filter-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Card Bottom Action Bar */
+.card-bottom-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 16px 26px;
+  background: #f8fafc;
+  border-top: 1px solid var(--border);
+}
+
+/* Floating Bottom Tally Bar (Single Home for Search Execution) */
+.tally-bar {
+  position: sticky;
+  bottom: 16px;
+  margin-top: 24px;
+  background: #ffffff;
+  color: var(--ink-heading);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(47, 75, 255, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+  flex-wrap: wrap;
+  gap: 14px;
+  z-index: 20;
+}
+.tally-left {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.tally-count {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  transition: color 0.2s ease;
+}
+.tally-count.streaming {
+  color: #2563eb;
+}
+.tally-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.tally-timing {
+  font-size: 12px;
+  color: var(--success);
+  background: var(--success-soft);
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--success-border);
+  font-weight: 600;
+}
+.tally-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Results Section Toolbar (AG Grid styled Header with Export) */
+.results {
+  margin-top: 32px;
+}
+.results-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.results-toolbar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.results-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink-heading);
+  margin: 0;
+}
+.results-subtitle {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.results-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.grid-search-shell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  padding: 0 14px;
+  width: 230px;
+  height: 34px;
+  min-height: 34px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+.grid-search-shell:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+.grid-search-shell svg {
+  width: 14px;
+  height: 14px;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+}
+.grid-search-input,
+input.grid-search-input[type="text"] {
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--ink-heading) !important;
+  font-size: 13px !important;
+  font-family: var(--font-ui) !important;
+  height: 32px !important;
+  min-height: unset !important;
+  outline: none !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+.grid-search-input::placeholder {
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+
+/* Authentic AG-Grid Enterprise Look & Feel */
+.ag-grid-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+}
+.ag-header-row {
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+.ag-header-cell {
+  padding: 12px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-right: 1px solid #f1f5f9;
+  position: relative;
+}
+.ag-header-cell:last-child {
+  border-right: none;
+}
+.ag-header-cell.sortable {
+  cursor: pointer;
+}
+.ag-header-cell.sortable:hover {
+  background: #f1f5f9;
+  color: var(--ink-heading);
+}
+.ag-sort-icon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.5;
+}
+.ag-header-cell:hover .ag-sort-icon {
+  opacity: 1;
+}
+
+.ag-row {
+  display: flex;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  transition: background 0.15s ease;
+}
+.ag-row:hover {
+  background: #f8fafc;
+}
+.ag-row:last-child {
+  border-bottom: none;
+}
+.ag-cell {
+  padding: 13px 14px;
+  font-size: 13.5px;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid transparent;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ag-cell-doc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--ink-heading);
+}
+.ag-cell-doc svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ag-row.streamed-row {
+  animation: agRowHighlight 1.2s ease;
+}
+@keyframes agRowHighlight {
+  0% { background: #eff6ff; }
+  100% { background: transparent; }
+}
+
+/* Row Action Three Dots */
+.ag-row-action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ag-row-action-btn:hover {
+  background: #e2e8f0;
+  color: var(--ink-heading);
+}
+.ag-row-action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* AG-Grid Footer / Pagination Bar */
+.ag-grid-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+.ag-footer-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ag-footer-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ag-page-btn {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+.ag-page-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+.ag-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge.approved {
+  background: var(--success-soft);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+.badge.declined {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+.badge.pending {
+  background: var(--warn-soft);
+  color: var(--warn);
+  border: 1px solid var(--warn-border);
+}
+
+/* Pristine Empty State Container */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 24px;
+  text-align: center;
+}
+.empty-state-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.empty-state-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.empty-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-heading);
+  margin: 0 0 6px;
+}
+.empty-state-desc {
+  font-size: 13.5px;
+  color: var(--ink-muted);
+  max-width: 480px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Mobile & Tablet Responsive UX (Preserving 100% Desktop at >= 900px)
+   ========================================================================== */
+@media (max-width: 899px) {
+  .app {
+    padding: 16px 12px 90px;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: var(--font-family);
-    background: #f8fafc;
-    color: var(--slate-950);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-  }
-
-  .hub {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 32px 24px 60px;
-  }
-
-  /* ========================================================
-     Global Header Bar (Company + User Email + Kebab Menu)
-     ======================================================== */
-  .hub-global-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 20px;
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--slate-200);
-    gap: 16px;
-  }
-
-  .hub-company-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .company-name {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--slate-950);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .hub-user-actions {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-shrink: 0;
-  }
-
-  .hub-user-badge {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: var(--slate-500);
-    font-weight: 500;
-    max-width: 260px;
-  }
-
-  .user-email-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .hub-kebab-menu-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: 1px solid var(--slate-200);
-    background: var(--white);
-    color: var(--slate-600);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  }
-
-  .hub-kebab-menu-btn:hover {
-    background: var(--slate-50);
-    border-color: var(--slate-300);
-    color: var(--slate-950);
-  }
-
-  /* ========================================================
-     Main Request Hero Header (Title, Desc, Due Date & Auto-save)
-     ======================================================== */
-  .hub-request-hero {
-    margin-bottom: 24px;
-  }
-
-  .hub-request-title {
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--slate-950);
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 8px;
-  }
-
-  .hub-request-desc {
-    font-size: 14.5px;
-    color: var(--slate-500);
-    line-height: 1.5;
-    max-width: 760px;
+  
+  .topbar {
     margin-bottom: 16px;
   }
-
-  .hub-meta-badges {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+  
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
-
-  /* Warm Amber Due Date Badge (matching reference design) */
-  .hub-due-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fde68a;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .due-calendar-icon {
-    font-size: 14px;
-    line-height: 1;
-    display: inline-block;
-  }
-
-  /* Ambient Auto-Save Indicator */
-  .hub-save-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--slate-500);
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    padding: 6px 13px;
-    border-radius: 20px;
-  }
-
-  .save-dot {
-    width: 7.5px;
-    height: 7.5px;
-    border-radius: 50%;
-    background: var(--success);
-    flex-shrink: 0;
-  }
-
-  .save-dot.uploading {
-    background: var(--primary);
-    animation: pulseDot 1.2s infinite ease-in-out;
-  }
-
-  @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.6; }
-  }
-
-  /* ========================================================
-     Prominent Live Upload In-Progress Banner (Desktop & Mobile)
-     ======================================================== */
-  .upload-banner {
-    display: none; /* activated when upload starts */
+  
+  /* Compact Horizontal Rail for Saved Searches on Mobile */
+  aside {
     background: #ffffff;
-    border: 1.5px solid var(--primary);
-    border-radius: 16px;
-    padding: 18px 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 16px rgba(47, 75, 255, 0.12);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .upload-banner.active {
-    display: block;
-    animation: slideDown 0.3s ease-out;
-  }
-
-  .upload-banner.completed-state {
-    border-color: var(--success);
-    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.12);
-    background: #f0fdf4;
-  }
-
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .upload-banner-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-
-  .upload-banner-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-width: 0;
-  }
-
-  .upload-spinner-wrap {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--primary-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    flex-shrink: 0;
-  }
-
-  .upload-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2.5px solid rgba(47, 75, 255, 0.2);
-    border-top-color: var(--primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  .upload-check-icon {
-    display: none;
-    color: var(--success);
-  }
-
-  .completed-state .upload-spinner { display: none; }
-  .completed-state .upload-check-icon { display: block; }
-  .completed-state .upload-spinner-wrap { background: var(--success-bg); }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .upload-banner-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--slate-900);
-    line-height: 1.2;
-  }
-
-  .upload-banner-warning {
-    font-size: 13px;
-    font-weight: 600;
-    color: #dc2626;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #fef2f2;
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid #fee2e2;
-  }
-
-  .completed-state .upload-banner-warning {
-    display: none;
-  }
-
-  .upload-banner-stats {
-    font-size: 13px;
-    color: var(--slate-600);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .upload-banner-stats strong {
-    color: var(--slate-950);
-  }
-
-  .upload-progress-bar-track {
-    width: 100%;
-    height: 8px;
-    background: var(--slate-100);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  .upload-progress-bar-fill {
-    height: 100%;
-    background: var(--primary);
-    border-radius: 999px;
-    width: 0%;
-    transition: width 0.3s ease;
-  }
-
-  .completed-state .upload-progress-bar-fill {
-    background: var(--success);
-  }
-
-  /* Buttons */
-  .btn {
-    padding: 9px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: var(--font-family);
-    cursor: pointer;
-    border: 1px solid var(--slate-200);
-    background: var(--white);
-    color: var(--slate-950);
-    transition: all 0.15s ease-in-out;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-decoration: none;
-    line-height: 1.2;
-  }
-
-  .btn:hover {
-    background: var(--slate-50);
-    border-color: var(--slate-300);
-  }
-
-  .btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(47, 75, 255, 0.25);
-  }
-
-  .btn-primary {
-    background: var(--primary);
-    color: var(--white);
-    border-color: var(--primary);
-    font-weight: 600;
-    box-shadow: 0 1px 2px rgba(47, 75, 255, 0.2);
-  }
-
-  .btn-primary:hover {
-    background: var(--primary-hover);
-    border-color: var(--primary-hover);
-    color: var(--white);
-  }
-
-  .btn-primary:active {
-    background: var(--primary-active);
-    border-color: var(--primary-active);
-  }
-
-  .btn-secondary {
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    color: var(--slate-800);
-    font-weight: 500;
-  }
-
-  .btn-secondary:hover {
-    background: var(--slate-50);
-    border-color: var(--slate-300);
-  }
-
-  .btn-link {
-    color: var(--primary);
-    border: 1px solid transparent;
-    padding: 8px 12px;
-    background: transparent;
-    font-weight: 600;
-    border-radius: 8px;
-  }
-
-  .btn-link:hover {
-    background: var(--primary-subtle);
-    color: var(--primary-active);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--slate-200);
-    color: var(--slate-500);
-    font-weight: 500;
-  }
-
-  .btn-ghost:hover {
-    background: var(--slate-100);
-    color: var(--slate-800);
-    border-color: var(--slate-300);
-  }
-
-  .btn.is-uploading {
-    pointer-events: none;
-    opacity: 0.8;
-    background: var(--slate-100) !important;
-    color: var(--slate-600) !important;
-    border-color: var(--slate-200) !important;
-  }
-
-  /* Progress Card */
-  .progress-card {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    border: 1px solid var(--slate-200);
-    border-radius: 16px;
-    padding: 24px 28px;
-    margin-bottom: 24px;
-    background: var(--white);
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-    flex-wrap: wrap;
-  }
-
-  .progress-ring-wrap {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-  }
-
-  .progress-ring-wrap svg {
-    transform: rotate(-90deg);
-    display: block;
-  }
-
-  .progress-ring-bg {
-    fill: none;
-    stroke: var(--slate-100);
-    stroke-width: 8;
-  }
-
-  .progress-ring-fill {
-    fill: none;
-    stroke: var(--primary);
-    stroke-width: 8;
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.6s ease;
-  }
-
-  .progress-ring-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--slate-800);
-    font-family: var(--font-family);
-  }
-
-  .progress-stats {
-    display: flex;
-    gap: 36px;
-    flex-wrap: wrap;
-    flex: 1;
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .stat-num {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--slate-950);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.3px;
-    line-height: 1.1;
-  }
-
-  .stat-label {
-    font-size: 12px;
-    color: var(--slate-400);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .stat-num.accent { color: var(--primary); }
-  .stat-num.purple { color: var(--purple); }
-  .stat-num.warning { color: var(--warning); }
-  .stat-num.positive { color: var(--success); }
-
-  /* Toolbar */
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  /* TaskManager styled tabs container */
-  .task-manager-tabs {
-    align-items: center;
-    background: var(--slate-50);
-    border: 1px solid var(--slate-200);
-    border-radius: 32px;
-    display: flex;
-    gap: 3px;
-    padding: 3px;
-    height: 44px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    max-width: 100%;
-  }
-
-  .task-manager-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .task-manager-tabs__button {
-    background: transparent;
-    border: 0;
-    border-radius: 32px;
-    color: var(--slate-500);
-    cursor: pointer;
-    font-family: var(--font-family);
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.2;
-    padding: 8px 16px;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-    flex-shrink: 0;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .task-manager-tabs__button:hover {
-    color: var(--slate-950);
-  }
-
-  .task-manager-tabs__button--active {
-    background: var(--white);
-    color: var(--slate-950);
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-  }
-
-  .feed-v2__search-shell {
-    align-items: center;
-    background: var(--slate-50);
-    border: 1px solid var(--slate-200);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    box-sizing: border-box;
+    padding: 12px 14px;
+  }
+  .rail-eyebrow {
+    margin: 0 0 8px 2px;
+    font-size: 11px;
+  }
+  #savedList {
     display: flex;
-    gap: 10px;
-    height: 44px;
-    min-width: 260px;
-    padding: 0 14px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    max-width: 380px;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
   }
-
-  .feed-v2__search-shell:focus-within {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(47, 75, 255, 0.15);
-    background: var(--white);
+  .saved-item {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
   }
-
-  .feed-v2__search-icon {
-    color: var(--slate-400);
-    flex-shrink: 0;
+  .saved-item.active {
+    background: #ffffff;
+    border-color: var(--accent-tint);
   }
-
-  .feed-v2__search-input {
-    appearance: none;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-    color: var(--slate-950);
-    font-family: var(--font-family);
-    font-size: 13px;
-    outline: none;
-    padding: 0;
+  .new-search {
+    display: none; /* Accessible in header/reset */
+  }
+  
+  /* Filter Card Adjustments */
+  .search-card {
+    border-radius: 12px;
+  }
+  .card-header {
+    padding: 14px 16px;
+  }
+  .card-header-title {
+    font-size: 14.5px;
+  }
+  .active-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+  
+  .step {
+    grid-template-columns: 20px 1fr;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+  
+  .combo-wrap {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  .subrow {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .field {
     width: 100%;
   }
-
-  .feed-v2__search-input::placeholder {
-    color: var(--slate-400);
-    font-size: 13px;
+  #docTypeCombo,
+  #suppDocSelect {
+    min-width: 100% !important;
+    width: 100% !important;
   }
-
-  /* List Wrapper */
-  .list-wrap {
-    border: 1px solid var(--slate-200);
-    border-radius: 16px;
-    overflow: hidden;
-    background: var(--white);
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-  }
-
-  .list-header {
-    display: grid;
-    grid-template-columns: 2.5fr 1.1fr 1.1fr 1.9fr;
-    padding: 14px 24px;
-    background: var(--white);
-    border-bottom: 1px solid var(--slate-200);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--slate-400);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    align-items: center;
-  }
-
-  .doc-row {
-    display: grid;
-    grid-template-columns: 2.5fr 1.1fr 1.1fr 1.9fr;
-    padding: 16px 24px;
-    border-top: 1px solid var(--slate-200);
-    align-items: center;
-    transition: background 0.12s ease-out;
-    background: var(--white);
-    position: relative;
-  }
-
-  .doc-row:first-of-type {
-    border-top: none;
-  }
-
-  .doc-row:hover {
-    background: var(--slate-50);
-  }
-
-  .doc-row.row-uploading {
-    background: #f8faff;
-  }
-
-  .doc-cell {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    min-width: 0;
-  }
-
-  .doc-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-  }
-
-  .doc-icon.upload { background: var(--primary-light); }
-  .doc-icon.form { background: var(--purple-bg); }
-  .doc-icon.template { background: #fefce8; }
-  .doc-icon.done { background: var(--success-bg); }
-  .doc-icon.uploading { background: #e0e7ff; }
-  .doc-icon svg { width: 20px; height: 20px; display: block; }
-
-  .doc-info {
-    min-width: 0;
-  }
-
-  .doc-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--slate-800);
-    display: flex;
-    align-items: center;
+  
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
     gap: 8px;
-    flex-wrap: wrap;
-    line-height: 1.3;
-  }
-
-  .doc-sub {
-    font-size: 12px;
-    color: var(--slate-500);
-    margin-top: 3px;
-  }
-
-  /* Badges: Clean Tikler Blue soft badge for Required */
-  .badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 10px;
-    border-radius: 32px;
-    background: var(--slate-100);
-    color: var(--slate-500);
-    text-transform: uppercase;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .badge.req {
-    background: var(--primary-light);
-    color: var(--primary);
-    border: 1px solid var(--primary-border);
-  }
-
-  .badge.done {
-    background: var(--success-bg);
-    color: var(--success);
-  }
-
-  .type-cell {
-    font-size: 13px;
-    color: var(--slate-600);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .type-cell svg {
-    color: var(--slate-400);
-  }
-
-  .status-cell {
-    font-size: 13px;
-    color: var(--slate-800);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .status-dot.pending { background: var(--slate-400); }
-  .status-dot.progress { background: var(--primary); }
-  .status-dot.done { background: var(--success); }
-  .status-dot.uploading {
-    background: var(--primary);
-    animation: pulseDot 1s infinite ease-in-out;
-  }
-
-  .action-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-
-  .task-manager-row-action {
-    width: 34px;
-    height: 34px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--slate-400);
-    border: 1px solid var(--slate-200);
-    background: var(--white);
-    transition: all 0.15s ease;
+    padding: 10px;
   }
-
-  .task-manager-row-action:hover {
-    background: var(--slate-100);
-    color: var(--slate-800);
-    border-color: var(--slate-300);
+  .filter-row .field {
+    width: 100%;
   }
-
-  .task-manager-row-action svg {
-    display: block;
+  .remove-x {
+    align-self: flex-end;
+    padding: 4px 8px;
   }
-
-  /* Footer */
-  .footer-bar {
-    display: flex;
+  
+  /* Collapsed summary strip */
+  .collapsed-summary-bar {
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Floating Bottom Action Bar on Mobile */
+  .tally-bar {
+    bottom: 8px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .tally-left {
     justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid var(--slate-200);
-    flex-wrap: wrap;
-    gap: 12px;
+    width: 100%;
   }
-
-  .footer-note {
+  .tally-count {
+    font-size: 22px;
+  }
+  .tally-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .tally-actions .btn {
+    width: 100%;
+    padding: 8px 10px;
     font-size: 13px;
-    color: var(--slate-500);
-    font-weight: 500;
   }
-
-  .footer-trust {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--slate-400);
-    font-weight: 500;
+  #stopStreamBtn {
+    grid-column: span 2;
   }
-
-  .footer-trust svg {
-    color: var(--slate-400);
+  
+  /* Results Toolbar & Horizontal Table Scrolling */
+  .results {
+    margin-top: 24px;
   }
-
-  /* Centered Powered by Tikler Footer */
-  .hub-branding-footer {
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid var(--slate-200);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .tikler-branding-badge {
-    display: inline-flex;
-    align-items: center;
+  .results-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
-    padding: 8px 18px;
-    border-radius: 999px;
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    text-decoration: none;
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-    transition: all 0.2s ease-in-out;
   }
-
-  .tikler-branding-badge:hover {
-    border-color: var(--primary);
-    box-shadow: 0 2px 8px rgba(47, 75, 255, 0.12);
-    transform: translateY(-1px);
+  .results-toolbar-right {
+    width: 100%;
+    display: flex;
+    gap: 8px;
   }
-
-  .powered-by-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--slate-400);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .tikler-logo-svg {
-    height: 18px;
+  .grid-search-shell {
+    flex: 1;
     width: auto;
-    display: block;
   }
-
-  /* Empty state */
-  .empty-state {
-    display: none;
-    padding: 48px 24px;
-    text-align: center;
-    color: var(--slate-500);
-    font-size: 14px;
+  
+  /* Horizontal scroll for AG Grid to preserve full columns */
+  #agGridContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
-
-  /* Hidden file input */
-  .hidden-file-input {
-    display: none;
+  .ag-header-row,
+  .ag-row {
+    min-width: 720px;
   }
+}
 
-  /* Toast Notification */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--slate-950);
-    color: var(--white);
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    z-index: 1000;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .toast.success { background: #0f172a; border-left: 4px solid var(--success); }
-  .toast.info { background: #0f172a; border-left: 4px solid var(--primary); }
-
-  /* Responsive Styles: Desktop & Mobile UX */
-  @media (max-width: 960px) {
-    .list-header, .doc-row {
-      grid-template-columns: 2fr 1fr 1.5fr;
-    }
-    .list-header span:nth-child(2),
-    .doc-row .type-cell {
-      display: none;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .hub {
-      padding: 16px 14px 48px;
-    }
-
-    .hub-global-nav {
-      padding-bottom: 14px;
-      margin-bottom: 16px;
-      gap: 10px;
-    }
-
-    .company-name {
-      font-size: 15.5px;
-      max-width: 170px;
-    }
-
-    .hub-user-badge {
-      font-size: 13px;
-      max-width: 130px;
-    }
-
-    .hub-kebab-menu-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-    }
-
-    .hub-request-hero {
-      margin-bottom: 18px;
-    }
-
-    .hub-request-title {
-      font-size: 24px;
-      margin-bottom: 6px;
-    }
-
-    .hub-request-desc {
-      font-size: 13px;
-      margin-bottom: 14px;
-      line-height: 1.45;
-    }
-
-    .hub-meta-badges {
-      gap: 8px;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .hub-due-badge {
-      width: 100%;
-      justify-content: center;
-      padding: 7px 12px;
-      font-size: 12.5px;
-    }
-
-    .hub-save-status {
-      width: 100%;
-      justify-content: center;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    /* Live Upload In-Progress Banner on Mobile */
-    .upload-banner {
-      padding: 14px 16px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-    }
-
-    .upload-banner-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .upload-banner-warning {
-      font-size: 12px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* Progress Dashboard Card on Mobile */
-    .progress-card {
-      padding: 18px 16px;
-      border-radius: 14px;
-      gap: 18px;
-      margin-bottom: 18px;
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .progress-ring-wrap {
-      margin: 0 auto;
-      width: 72px;
-      height: 72px;
-    }
-
-    .progress-ring-wrap svg {
-      width: 72px;
-      height: 72px;
-    }
-
-    .progress-ring-text {
-      font-size: 15px;
-    }
-
-    .progress-stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      width: 100%;
-    }
-
-    .stat {
-      background: var(--slate-50);
-      border: 1px solid var(--slate-200);
-      border-radius: 10px;
-      padding: 10px 12px;
-      gap: 2px;
-    }
-
-    .stat:first-child {
-      grid-column: span 2;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-    }
-
-    .stat:first-child .stat-label {
-      order: 1;
-    }
-
-    .stat:first-child .stat-num {
-      order: 2;
-      font-size: 20px;
-    }
-
-    .stat-num {
-      font-size: 18px;
-    }
-
-    .stat-label {
-      font-size: 11px;
-    }
-
-    /* Toolbar & Mobile Horizontal Scrollable Tab Bar */
-    .toolbar {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .task-manager-tabs {
-      width: 100%;
-      height: 44px;
-      padding: 3px 4px;
-      border-radius: 32px;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
-    }
-
-    .task-manager-tabs__button {
-      padding: 7px 14px;
-      font-size: 13px;
-      flex: 0 0 auto;
-    }
-
-    .feed-v2__search-shell {
-      max-width: none;
-      width: 100%;
-      height: 44px;
-    }
-
-    /* Document List & Cards on Mobile */
-    .list-wrap {
-      border: none;
-      background: transparent;
-      box-shadow: none;
-      overflow: visible;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .list-header {
-      display: none;
-    }
-
-    .doc-row {
-      display: flex !important;
-      flex-direction: column !important;
-      padding: 18px 16px !important;
-      border: 1px solid var(--slate-200) !important;
-      border-radius: 16px !important;
-      background: var(--white) !important;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-      gap: 12px !important;
-      margin-bottom: 0 !important;
-      border-top: 1px solid var(--slate-200) !important;
-    }
-
-    .doc-row.row-uploading {
-      background: #f8faff !important;
-      border-color: var(--primary-border) !important;
-    }
-
-    .doc-row .doc-cell {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      width: 100%;
-      padding: 0 !important;
-    }
-
-    .doc-row .doc-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .doc-row .doc-icon svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .doc-row .doc-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .doc-row .doc-name {
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.35;
-      gap: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .doc-row .doc-sub {
-      font-size: 12.5px;
-      color: var(--slate-500);
-      margin-top: 4px;
-    }
-
-    .doc-row .type-cell {
-      display: none !important;
-    }
-
-    .doc-row .status-cell {
-      padding: 0 !important;
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--slate-700);
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .doc-row .action-cell {
-      padding-top: 14px !important;
-      border-top: 1px solid var(--slate-100) !important;
-      display: flex !important;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .doc-row .action-cell .btn {
-      height: 40px;
-      padding: 0 16px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      flex: 1 1 auto;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .doc-row .action-cell .btn-primary {
-      box-shadow: 0 1px 2px rgba(47, 75, 255, 0.2);
-    }
-
-    .doc-row .action-cell .btn-secondary {
-      border: 1px solid var(--slate-300);
-    }
-
-    .doc-row .action-cell .task-manager-row-action {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      border-radius: 8px;
-    }
-
-    /* Footer & Branding on Mobile */
-    .footer-bar {
-      margin-top: 16px;
-      padding-top: 14px;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .hub-branding-footer {
-      margin-top: 32px;
-      padding-top: 20px;
-    }
-
-    /* Toast on Mobile */
-    .toast {
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
-      max-width: none;
-      justify-content: center;
-      text-align: center;
-    }
-  }
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="hub">
-  <!-- Top Global Header: Company & User Info -->
-  <header class="hub-global-nav">
-    <div class="hub-company-brand">
-      <span class="company-name">Abdi the Money Collector Inc.</span>
-    </div>
-    <div class="hub-user-actions">
-      <div class="hub-user-badge" title="Logged in as rahul080924@outlook.com">
-        <span class="user-email-text">rahul080924@outlook.com</span>
-      </div>
-      <button class="hub-kebab-menu-btn" title="More options" onclick="showToast('Account options', 'info')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="5" r="1.5"/>
-          <circle cx="12" cy="12" r="1.5"/>
-          <circle cx="12" cy="19" r="1.5"/>
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Request Hero: Title, Description, Due Date & Auto-save -->
-  <section class="hub-request-hero">
-    <h1 class="hub-request-title">Test v2</h1>
-    <p class="hub-request-desc">Please review the checklist below and submit all required documentation for your verification.</p>
-    <div class="hub-meta-badges">
-      <!-- Amber Due Date Badge (Matching reference) -->
-      <div class="hub-due-badge">
-        <span class="due-calendar-icon">📅</span>
-        <span class="due-text">Due in 5 days — Aug 25, 2026</span>
-      </div>
-      <!-- Ambient Auto-Save Indicator -->
-      <div class="hub-save-status">
-        <span id="header-save-dot" class="save-dot"></span>
-        <span id="header-save-text">All changes saved automatically</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Prominent Live Upload In-Progress Banner -->
-  <div id="upload-banner" class="upload-banner">
-    <div class="upload-banner-header">
-      <div class="upload-banner-left">
-        <div class="upload-spinner-wrap">
-          <div class="upload-spinner"></div>
-          <svg class="upload-check-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div>
-          <div id="upload-banner-title" class="upload-banner-title">Uploading documents...</div>
-          <div id="upload-banner-sub" style="font-size: 13px; color: var(--slate-600); margin-top: 2px;">Your files are being uploaded directly to Tikler.</div>
-        </div>
-      </div>
-      <div class="upload-banner-warning">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Please do not reload or leave this page
-      </div>
-    </div>
-    <div class="upload-banner-stats">
-      <span id="upload-banner-count"><strong>0 of 0</strong> uploaded (0 pending)</span>
-      <span id="upload-banner-percent" style="font-weight: 600; color: var(--primary);">0%</span>
-    </div>
-    <div class="upload-progress-bar-track">
-      <div id="upload-banner-bar" class="upload-progress-bar-fill"></div>
-    </div>
+  <div class="topbar">
+    <div class="crumb">Tikler &nbsp;›&nbsp; <b>Advanced search</b></div>
   </div>
 
-  <!-- Progress Card -->
-  <div class="progress-card">
-    <div class="progress-ring-wrap">
-      <svg width="80" height="80" viewBox="0 0 80 80">
-        <circle class="progress-ring-bg" cx="40" cy="40" r="32"/>
-        <circle id="progress-circle" class="progress-ring-fill" cx="40" cy="40" r="32" stroke-dasharray="201.06" stroke-dashoffset="100.53"/>
-      </svg>
-      <div id="progress-percent" class="progress-ring-text">50%</div>
-    </div>
-    <div class="progress-stats">
-      <div class="stat"><span class="stat-num" id="stat-total">24</span><span class="stat-label">Total documents</span></div>
-      <div class="stat"><span class="stat-num accent" id="stat-req-pending">6</span><span class="stat-label">Required pending</span></div>
-      <div class="stat"><span class="stat-num purple" id="stat-forms">4</span><span class="stat-label">Forms to fill</span></div>
-      <div class="stat"><span class="stat-num warning" id="stat-templates">4</span><span class="stat-label">Templates</span></div>
-      <div class="stat"><span class="stat-num positive" id="stat-completed">12</span><span class="stat-label">Completed</span></div>
-    </div>
+  <div class="layout">
+    <aside>
+      <div class="rail-eyebrow">Saved searches</div>
+      <div id="savedList"></div>
+      <div class="new-search" id="newSearchBtn">
+        <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M9 4v10M4 9h10"/></svg>
+        New search
+      </div>
+    </aside>
+
+    <main>
+      <!-- Collapsible Search Card -->
+      <div class="search-card" id="searchCard">
+
+        <!-- Card Header with Collapse / Expand Toggle -->
+        <div class="card-header" id="cardHeader">
+          <div class="card-header-left">
+            <h3 class="card-header-title">Search Filters</h3>
+            <span class="active-badge" id="filterCountBadge">1 filter active</span>
+          </div>
+          <div class="card-header-right">
+            <button class="collapse-toggle" id="collapseToggleBtn" type="button">
+              <span id="collapseToggleText">Collapse</span>
+              <svg class="chevron-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 6.75l4.5 4.5 4.5-4.5"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- WebSocket Live Progress Bar -->
+        <div class="progress-bar-wrap" id="progressBarWrap">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+
+        <!-- WebSocket Live Status Strip -->
+        <div class="progress-status-strip" id="progressStatusStrip">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="progress-live-tag"><span class="pulse-dot"></span> Streaming</span>
+            <span id="progressStatusText">Connecting WebSocket & indexing workspaces...</span>
+          </div>
+          <span style="font-family:var(--font-mono);font-weight:600" id="progressPercentText">0%</span>
+        </div>
+
+        <!-- Collapsed Summary Strip (Visible when collapsed) -->
+        <div class="collapsed-summary-bar" id="collapsedSummaryBar">
+          <div class="summary-chips-wrap" id="summaryChipsWrap"></div>
+          <button class="btn btn-sm" id="editFiltersBtn" type="button">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l4 4-10 10H2v-4L12 2z"/></svg>
+            Edit filters
+          </button>
+        </div>
+
+        <!-- Stepper Filter Form Body -->
+        <div class="steps-container" id="stepsContainer">
+
+          <!-- Step 1: Scope -->
+          <div class="step">
+            <div class="dot-col"><div class="dot done"></div><div class="dot-line"></div></div>
+            <div>
+              <div class="eyebrow">Scope</div>
+              <div class="seg" id="scopeSeg">
+                <button data-scope="active" class="sel">Active</button>
+                <button data-scope="archived">Archived</button>
+                <button data-scope="both">Both</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Workspace -->
+          <div class="step">
+            <div class="dot-col"><div class="dot reachable" id="dot2"></div><div class="dot-line"></div></div>
+            <div>
+              <div class="eyebrow">Workspace</div>
+              <div class="combo-wrap" id="wsCombo" style="max-width:360px">
+                <input type="text" class="combo-input" id="wsInput" placeholder="Search 32 workspaces…" autocomplete="off">
+                <div class="combo-panel" id="wsPanel"></div>
+              </div>
+              <div class="chips" id="wsChips" style="margin-top:10px"></div>
+              <div class="hint">Selecting a workspace filters available subfolders in Step 3.</div>
+            </div>
+          </div>
+
+          <!-- Step 3: Subfolder -->
+          <div class="step locked" id="step3">
+            <div class="dot-col"><div class="dot" id="dot3"></div><div class="dot-line"></div></div>
+            <div>
+              <div class="eyebrow">Subfolder</div>
+              <div class="combo-wrap" id="subfolderCombo" style="max-width:420px">
+                <input type="text" class="combo-input" id="subfolderInput" placeholder="Search subfolders in selected workspace…" autocomplete="off">
+                <div class="combo-panel" id="subfolderPanel"></div>
+              </div>
+              <div class="chips" id="subfolderChips" style="margin-top:10px"></div>
+              <div class="hint">Pick one or more subfolders (or leave blank to search across the entire workspace).</div>
+            </div>
+          </div>
+
+          <!-- Step 4: Document Template & Supporting Document -->
+          <div class="step locked" id="step4">
+            <div class="dot-col"><div class="dot" id="dot4"></div><div class="dot-line"></div></div>
+            <div>
+              <div class="eyebrow">Document template</div>
+              <div class="subrow">
+                <div class="field">
+                  <label>Template</label>
+                  <div class="combo-wrap" id="docTypeCombo" style="min-width:280px">
+                    <input type="text" class="combo-input" id="docTypeInput" placeholder="Search document templates…" autocomplete="off">
+                    <div class="combo-panel" id="docTypePanel"></div>
+                  </div>
+                </div>
+                <div class="field" id="suppField" style="display:none">
+                  <label>Contains supporting document</label>
+                  <select id="suppDocSelect" style="min-width:220px"><option value="">Any</option></select>
+                </div>
+              </div>
+              <div class="hint">Searches across subfolders in the selected workspace — of defined templates.</div>
+            </div>
+          </div>
+
+          <!-- Step 5: Document Metadata Fields -->
+          <div class="step locked" id="step5">
+            <div class="dot-col"><div class="dot" id="dot5"></div></div>
+            <div>
+              <div class="eyebrow">Document fields</div>
+              <div id="filterRows"></div>
+              <div class="combo-wrap" id="filterCombo">
+                <button class="add-filter-btn" id="addFilterBtn" type="button">
+                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M9 4v10M4 9h10"/></svg>
+                  Add field filter
+                </button>
+                <div class="combo-panel" id="filterPanel" style="width:300px">
+                  <input type="text" class="combo-input" id="filterSearch" placeholder="Search fields…" style="margin-bottom:6px">
+                  <div id="filterList"></div>
+                </div>
+              </div>
+              <div class="hint" id="fieldsHint"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Card Action Controls -->
+          <div class="card-bottom-actions">
+            <button class="btn btn-sm" id="resetFiltersBtn" type="button">Clear filters</button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Single Primary Action Floating Tally Bar -->
+      <div class="tally-bar">
+        <div class="tally-left">
+          <span class="tally-count" id="tallyCount" data-val="0">0000</span>
+          <span class="tally-label" id="tallyLabel">matching documents</span>
+          <span class="tally-timing" id="tallyTiming" style="display:inline-block">Ready</span>
+        </div>
+        <div class="tally-actions">
+          <button class="btn btn-stop" id="stopStreamBtn" style="display:none" type="button">
+            <svg viewBox="0 0 18 18" fill="currentColor"><rect x="4" y="4" width="10" height="10" rx="2"/></svg>
+            Stop streaming
+          </button>
+          <button class="btn" id="saveBtn">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16l-5-3-5 3V4a2 2 0 012-2h6a2 2 0 012 2v12z"/></svg>
+            Save search
+          </button>
+          <button class="btn btn-accent" id="primarySearchBtn" type="button">
+            <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"/><path d="M15 15l-3.5-3.5"/></svg>
+            <span id="primarySearchBtnText">Search documents</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Section with AG-Grid Header Toolbar & Table -->
+      <div class="results" id="resultsSection">
+        <div class="results-toolbar">
+          <div class="results-toolbar-left">
+            <h2 class="results-title">Results</h2>
+            <span class="results-subtitle" id="resultsSub">Configure filters and click "Search documents" to begin</span>
+          </div>
+          <div class="results-toolbar-right" id="resultsActionsBar">
+            <div class="grid-search-shell" id="gridSearchWrap" style="display:none">
+              <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-faint)"><circle cx="8" cy="8" r="5"/><path d="M15 15l-3.5-3.5"/></svg>
+              <input type="text" class="grid-search-input" id="gridFilterInput" placeholder="Filter records...">
+            </div>
+            <button class="btn btn-sm" id="tableExportBtn" style="display:none" type="button">
+              <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v9M5 9l4 4 4-4M4 15h10"/></svg>
+              Export CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- AG-Grid Enterprise Container -->
+        <div class="ag-grid-wrapper" id="agGridWrapper">
+          <!-- Initial Pristine Empty State Placeholder -->
+          <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <h4 class="empty-state-title">No search executed yet</h4>
+            <p class="empty-state-desc">Select a workspace and subfolder above, then click <b>"Search documents"</b> in the bottom bar to stream matching records via WebSocket.</p>
+          </div>
+
+          <!-- AG-Grid Structure (Header, Rows, Footer) -->
+          <div id="agGridContainer" style="display:none">
+            <div class="ag-header-row" id="agHeaderRow"></div>
+            <div id="agGridBody"></div>
+            <div class="ag-grid-footer">
+              <div class="ag-footer-info" id="agFooterInfo">Showing 1 to 6 of 142 items</div>
+              <div class="ag-footer-controls">
+                <span>Rows per page: <b>25</b></span>
+                <div style="display:flex;gap:4px">
+                  <button class="ag-page-btn" disabled>&lt;</button>
+                  <button class="ag-page-btn">&gt;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
-
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="task-manager-tabs" role="tablist" aria-label="Document filter tabs">
-      <button class="task-manager-tabs__button task-manager-tabs__button--active" data-filter="all" role="tab">All (24)</button>
-      <button class="task-manager-tabs__button" data-filter="required" role="tab">Required (14)</button>
-      <button class="task-manager-tabs__button" data-filter="forms" role="tab">Forms (4)</button>
-      <button class="task-manager-tabs__button" data-filter="templates" role="tab">Templates (4)</button>
-      <button class="task-manager-tabs__button" data-filter="completed" role="tab">Completed (12)</button>
-    </div>
-    <div class="feed-v2__search-shell">
-      <svg class="feed-v2__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="doc-search" class="feed-v2__search-input" placeholder="Search documents..." autocomplete="off" />
-    </div>
-  </div>
-
-  <!-- Document List (24 Hardcoded Items with Auto-upload on file selection) -->
-  <div class="list-wrap">
-    <div class="list-header">
-      <span>Document</span>
-      <span>Type</span>
-      <span>Status</span>
-      <span>Action</span>
-    </div>
-
-    <!-- 1: Passport copy (Required, Upload, Pending) -->
-    <div class="doc-row" id="doc-row-1" data-category="required upload pending" data-title="Passport copy Identification PDF or JPG Max 5 MB">
-      <input type="file" class="hidden-file-input" id="file-input-1" onchange="handleFileSelected(1, 'Passport copy', this)">
-      <div class="doc-cell">
-        <div class="doc-icon upload" id="doc-icon-1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Passport copy <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-1">PDF or JPG · Max 5 MB</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-1"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-1">
-        <button class="btn btn-primary" onclick="triggerFileInput(1)">Upload</button>
-      </div>
-    </div>
-
-    <!-- 2: Tax declaration (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-2" data-category="required forms pending" data-title="Tax declaration Go to link fill form submit Required">
-      <div class="doc-cell">
-        <div class="doc-icon form" id="doc-icon-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Tax declaration <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-2">Go to link → fill form → submit</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Online form
-      </div>
-      <div class="status-cell" id="status-cell-2"><span class="status-dot pending"></span> Not started</div>
-      <div class="action-cell" id="action-cell-2">
-        <button class="btn btn-link" onclick="handleOnlineFormStart(2, 'Tax declaration')">Fill form →</button>
-      </div>
-    </div>
-
-    <!-- 3: Employment contract (Required, Template, Pending) -->
-    <div class="doc-row" id="doc-row-3" data-category="required templates pending" data-title="Employment contract Download template fill upload">
-      <input type="file" class="hidden-file-input" id="file-input-3" onchange="handleFileSelected(3, 'Employment contract', this)">
-      <div class="doc-cell">
-        <div class="doc-icon template" id="doc-icon-3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Employment contract <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-3">Download template → fill → upload</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Template
-      </div>
-      <div class="status-cell" id="status-cell-3"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-3">
-        <button class="btn btn-secondary" onclick="showToast('Downloading employment template...', 'info')">Download template</button>
-        <button class="btn btn-primary" onclick="triggerFileInput(3)">Upload filled</button>
-      </div>
-    </div>
-
-    <!-- 4: NRC (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-4" data-category="completed upload" data-title="NRC National Registration Card Optional Uploaded Aug 17 10:45 AM">
-      <input type="file" class="hidden-file-input" id="file-input-4" onchange="handleFileSelected(4, 'NRC', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">NRC <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-4">Uploaded Aug 17, 10:45 AM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-4"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-4">
-        <button class="btn btn-ghost" onclick="triggerFileInput(4)">Re-upload</button>
-        <button class="task-manager-row-action" title="More options" onclick="showToast('NRC options opened', 'info')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- 5: Bank statement (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-5" data-category="required completed upload" data-title="Bank statement Required Uploaded Aug 16 02:30 PM">
-      <input type="file" class="hidden-file-input" id="file-input-5" onchange="handleFileSelected(5, 'Bank statement', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Bank statement <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-5">Uploaded Aug 16, 02:30 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-5"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-5">
-        <button class="btn btn-ghost" onclick="triggerFileInput(5)">Re-upload</button>
-        <button class="task-manager-row-action" title="More options" onclick="showToast('Bank statement options opened', 'info')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- 6: RC (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-6" data-category="completed upload" data-title="RC Vehicle Registration Certificate Optional Uploaded Aug 16 09:15 AM">
-      <input type="file" class="hidden-file-input" id="file-input-6" onchange="handleFileSelected(6, 'RC', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-6">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">RC <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-6">Uploaded Aug 16, 09:15 AM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-6"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-6">
-        <button class="btn btn-ghost" onclick="triggerFileInput(6)">Re-upload</button>
-        <button class="task-manager-row-action" title="More options" onclick="showToast('RC options opened', 'info')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- 7: Proof of Address (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-7" data-category="required completed upload" data-title="Proof of address Utility bill Lease agreement Required Uploaded Aug 15 04:30 PM">
-      <input type="file" class="hidden-file-input" id="file-input-7" onchange="handleFileSelected(7, 'Proof of address', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-7">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Proof of address <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-7">Uploaded Aug 15, 04:30 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-7"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-7">
-        <button class="btn btn-ghost" onclick="triggerFileInput(7)">Re-upload</button>
-        <button class="task-manager-row-action" title="More options" onclick="showToast('Address proof options opened', 'info')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- 8: Direct Deposit Authorization (Required, Form, Completed) -->
-    <div class="doc-row" id="doc-row-8" data-category="required forms completed" data-title="Direct deposit authorization Banking form Required Submitted Aug 15 01:15 PM">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-8">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Direct deposit authorization <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-8">Submitted Aug 15, 01:15 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Online form
-      </div>
-      <div class="status-cell" id="status-cell-8"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-8">
-        <button class="btn btn-ghost" onclick="showToast('Viewing submitted direct deposit form...', 'info')">View response</button>
-      </div>
-    </div>
-
-    <!-- 9: NDA Agreement (Required, Template, Completed) -->
-    <div class="doc-row" id="doc-row-9" data-category="required templates completed" data-title="NDA Agreement Non-disclosure agreement Required Uploaded Aug 14 02:45 PM">
-      <input type="file" class="hidden-file-input" id="file-input-9" onchange="handleFileSelected(9, 'NDA Agreement', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-9">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Non-disclosure agreement (NDA) <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-9">Uploaded Aug 14, 02:45 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Template
-      </div>
-      <div class="status-cell" id="status-cell-9"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-9">
-        <button class="btn btn-ghost" onclick="triggerFileInput(9)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 10: Medical clearance (Optional, Upload, Pending) -->
-    <div class="doc-row" id="doc-row-10" data-category="upload pending" data-title="Medical clearance Health certificate Optional PDF or JPG">
-      <input type="file" class="hidden-file-input" id="file-input-10" onchange="handleFileSelected(10, 'Medical clearance', this)">
-      <div class="doc-cell">
-        <div class="doc-icon upload" id="doc-icon-10">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Medical clearance certificate <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-10">PDF or JPG · Issued in last 6 months</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-10"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-10">
-        <button class="btn btn-primary" onclick="triggerFileInput(10)">Upload</button>
-      </div>
-    </div>
-
-    <!-- 11: Police Clearance Certificate (Required, Upload, Pending) -->
-    <div class="doc-row" id="doc-row-11" data-category="required upload pending" data-title="Police clearance certificate Background check Required PDF or JPG">
-      <input type="file" class="hidden-file-input" id="file-input-11" onchange="handleFileSelected(11, 'Police clearance certificate', this)">
-      <div class="doc-cell">
-        <div class="doc-icon upload" id="doc-icon-11">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Police clearance certificate <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-11">PDF or JPG · Government verified</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-11"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-11">
-        <button class="btn btn-primary" onclick="triggerFileInput(11)">Upload</button>
-      </div>
-    </div>
-
-    <!-- 12: Emergency Contact Information (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-12" data-category="required forms pending" data-title="Emergency contact form Next of kin Required Go to link fill form submit">
-      <div class="doc-cell">
-        <div class="doc-icon form" id="doc-icon-12">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Emergency contact form <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-12">Go to link → fill form → submit</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Online form
-      </div>
-      <div class="status-cell" id="status-cell-12"><span class="status-dot pending"></span> Not started</div>
-      <div class="action-cell" id="action-cell-12">
-        <button class="btn btn-link" onclick="handleOnlineFormStart(12, 'Emergency contact form')">Fill form →</button>
-      </div>
-    </div>
-
-    <!-- 13: Educational degree / Diploma (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-13" data-category="required completed upload" data-title="Educational degree Diploma Transcript Required Uploaded Aug 14 11:20 AM">
-      <input type="file" class="hidden-file-input" id="file-input-13" onchange="handleFileSelected(13, 'Degree certificates', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-13">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Degree certificates / Transcripts <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-13">Uploaded Aug 14, 11:20 AM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-13"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-13">
-        <button class="btn btn-ghost" onclick="triggerFileInput(13)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 14: IT Security Policy Sign-off (Required, Template, Pending) -->
-    <div class="doc-row" id="doc-row-14" data-category="required templates pending" data-title="IT Security Policy Sign-off Cybersecurity agreement Required Download template fill upload">
-      <input type="file" class="hidden-file-input" id="file-input-14" onchange="handleFileSelected(14, 'IT security policy', this)">
-      <div class="doc-cell">
-        <div class="doc-icon template" id="doc-icon-14">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">IT security policy sign-off <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-14">Download template → sign → upload</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Template
-      </div>
-      <div class="status-cell" id="status-cell-14"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-14">
-        <button class="btn btn-secondary" onclick="showToast('Downloading IT security policy...', 'info')">Download template</button>
-        <button class="btn btn-primary" onclick="triggerFileInput(14)">Upload filled</button>
-      </div>
-    </div>
-
-    <!-- 15: Code of Conduct Acknowledgment (Required, Form, Completed) -->
-    <div class="doc-row" id="doc-row-15" data-category="required forms completed" data-title="Code of Conduct Acknowledgment Ethics agreement Required Submitted Aug 13 03:40 PM">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-15">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Code of conduct acknowledgment <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-15">Submitted Aug 13, 03:40 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Online form
-      </div>
-      <div class="status-cell" id="status-cell-15"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-15">
-        <button class="btn btn-ghost" onclick="showToast('Viewing code of conduct submission...', 'info')">View response</button>
-      </div>
-    </div>
-
-    <!-- 16: Professional Reference Letters (Optional, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-16" data-category="completed upload" data-title="Professional reference letters Recommendation letters Optional Uploaded Aug 13 05:10 PM">
-      <input type="file" class="hidden-file-input" id="file-input-16" onchange="handleFileSelected(16, 'Reference letters', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-16">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Reference letters <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-16">Uploaded Aug 13, 05:10 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-16"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-16">
-        <button class="btn btn-ghost" onclick="triggerFileInput(16)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 17: Previous Employer Relieving Letter (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-17" data-category="required completed upload" data-title="Previous employer relieving letter Experience certificate Required Uploaded Aug 12 01:25 PM">
-      <input type="file" class="hidden-file-input" id="file-input-17" onchange="handleFileSelected(17, 'Previous relieving letter', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-17">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Previous relieving letter <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-17">Uploaded Aug 12, 01:25 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-17"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-17">
-        <button class="btn btn-ghost" onclick="triggerFileInput(17)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 18: Work Permit / Visa Document (Optional, Upload, Pending) -->
-    <div class="doc-row" id="doc-row-18" data-category="upload pending" data-title="Work permit Visa copy Residency proof Optional PDF or JPG">
-      <input type="file" class="hidden-file-input" id="file-input-18" onchange="handleFileSelected(18, 'Work permit / Visa', this)">
-      <div class="doc-cell">
-        <div class="doc-icon upload" id="doc-icon-18">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Work permit / Visa copy <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-18">PDF or JPG · If applicable for foreign nationals</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-18"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-18">
-        <button class="btn btn-primary" onclick="triggerFileInput(18)">Upload</button>
-      </div>
-    </div>
-
-    <!-- 19: Photo ID Verification (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-19" data-category="required completed upload" data-title="Photo ID Verification Driving license State ID Required Uploaded Aug 11 10:10 AM">
-      <input type="file" class="hidden-file-input" id="file-input-19" onchange="handleFileSelected(19, 'Photo ID verification', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-19">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Photo ID verification <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-19">Uploaded Aug 11, 10:10 AM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-19"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-19">
-        <button class="btn btn-ghost" onclick="triggerFileInput(19)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 20: Health Insurance Enrollment (Optional, Template, Completed) -->
-    <div class="doc-row" id="doc-row-20" data-category="templates completed" data-title="Health Insurance Enrollment Medical benefits form Optional Uploaded Aug 10 04:50 PM">
-      <input type="file" class="hidden-file-input" id="file-input-20" onchange="handleFileSelected(20, 'Health insurance election', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-20">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Health insurance election <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-20">Uploaded Aug 10, 04:50 PM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Template
-      </div>
-      <div class="status-cell" id="status-cell-20"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-20">
-        <button class="btn btn-ghost" onclick="triggerFileInput(20)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 21: Resume / Curriculum Vitae (Required, Upload, Completed) -->
-    <div class="doc-row" id="doc-row-21" data-category="required completed upload" data-title="Resume CV Curriculum Vitae Required Uploaded Aug 10 09:30 AM">
-      <input type="file" class="hidden-file-input" id="file-input-21" onchange="handleFileSelected(21, 'Resume / CV', this)">
-      <div class="doc-cell">
-        <div class="doc-icon done" id="doc-icon-21">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Updated Resume / CV <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-21">Uploaded Aug 10, 09:30 AM</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-21"><span class="status-dot done"></span> Completed</div>
-      <div class="action-cell" id="action-cell-21">
-        <button class="btn btn-ghost" onclick="triggerFileInput(21)">Re-upload</button>
-      </div>
-    </div>
-
-    <!-- 22: Background Check Consent (Required, Form, Pending) -->
-    <div class="doc-row" id="doc-row-22" data-category="required forms pending" data-title="Background check consent Verification authorization Required Go to link fill form submit">
-      <div class="doc-cell">
-        <div class="doc-icon form" id="doc-icon-22">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Background check consent <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-22">Go to link → fill form → submit</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Online form
-      </div>
-      <div class="status-cell" id="status-cell-22"><span class="status-dot pending"></span> Not started</div>
-      <div class="action-cell" id="action-cell-22">
-        <button class="btn btn-link" onclick="handleOnlineFormStart(22, 'Background check consent')">Fill form →</button>
-      </div>
-    </div>
-
-    <!-- 23: Direct Tax Withholding Form (Required, Upload, Pending) -->
-    <div class="doc-row" id="doc-row-23" data-category="required upload pending" data-title="Tax withholding W-4 W-8BEN form Required PDF Max 5 MB">
-      <input type="file" class="hidden-file-input" id="file-input-23" onchange="handleFileSelected(23, 'Tax withholding form', this)">
-      <div class="doc-cell">
-        <div class="doc-icon upload" id="doc-icon-23">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f4bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Tax withholding certificate (W-4) <span class="badge req">Required</span></div>
-          <div class="doc-sub" id="doc-sub-23">PDF · Completed & signed government form</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-        File upload
-      </div>
-      <div class="status-cell" id="status-cell-23"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-23">
-        <button class="btn btn-primary" onclick="triggerFileInput(23)">Upload</button>
-      </div>
-    </div>
-
-    <!-- 24: Direct Manager Check-in Form (Optional, Template, Pending) -->
-    <div class="doc-row" id="doc-row-24" data-category="templates pending" data-title="Manager check-in sheet Onboarding checklist Optional Download template fill upload">
-      <input type="file" class="hidden-file-input" id="file-input-24" onchange="handleFileSelected(24, 'Manager checklist', this)">
-      <div class="doc-cell">
-        <div class="doc-icon template" id="doc-icon-24">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div class="doc-info">
-          <div class="doc-name">Manager onboarding checklist <span class="badge">Optional</span></div>
-          <div class="doc-sub" id="doc-sub-24">Download template → fill → upload</div>
-        </div>
-      </div>
-      <div class="type-cell">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Template
-      </div>
-      <div class="status-cell" id="status-cell-24"><span class="status-dot pending"></span> Pending</div>
-      <div class="action-cell" id="action-cell-24">
-        <button class="btn btn-secondary" onclick="showToast('Downloading manager checklist...', 'info')">Download template</button>
-        <button class="btn btn-primary" onclick="triggerFileInput(24)">Upload filled</button>
-      </div>
-    </div>
-
-    <!-- Empty State Message -->
-    <div id="empty-state" class="empty-state">
-      <p>No documents match your filter or search query.</p>
-    </div>
-  </div>
-
-  <!-- Footer (Document Count) -->
-  <div class="footer-bar">
-    <div id="footer-note" class="footer-note">Showing 24 of 24 documents</div>
-  </div>
-
-  <!-- Centered Powered by Tikler Branding Footer -->
-  <footer class="hub-branding-footer">
-    <a href="https://tikler.io" target="_blank" rel="noopener noreferrer" class="tikler-branding-badge" title="Tikler Document Workflow Platform">
-      <span class="powered-by-label">Powered by</span>
-      <svg class="tikler-logo-svg" viewBox="0 0 1160 420" width="76" height="20">
-        <g>
-          <path fill="#94a3b8" d="M343.48,38.18h-66.5c-0.63,0-1.22-0.29-1.6-0.79l-8-10.86c-9.42-12.8-24.37-20.35-40.26-20.35h-79.08 c-26.03,0-47.41,19.89-49.78,45.3c2.76-0.88,5.71-1.35,8.77-1.35c11.2,0,20.93,6.38,25.76,15.69h76.42 c4.83-9.31,14.56-15.69,25.76-15.69s20.93,6.38,25.76,15.69h24.81c38.66,0,70,31.34,70,70v200.36h1.38c27.61,0,50-22.38,50-50 V101.62C406.92,66.58,378.51,38.18,343.48,38.18z"/>
-          <path fill="#020618" d="M285.54,103.82c17.65,0,32,14.36,32,32v228c0,17.64-14.35,32-32,32h-228c-17.65,0-32-14.36-32-32v-228 c0-17.64,14.35-32,32-32H285.54 M285.54,85.82h-228c-27.61,0-50,22.39-50,50v228c0,27.61,22.39,50,50,50h228 c27.61,0,50-22.39,50-50v-228C335.54,108.21,313.15,85.82,285.54,85.82z"/>
-          <path fill="#020618" d="M107.03,127.84c-4.97,0-9-4.03-9-9V79.12c0-4.97,4.03-9,9-9h0c4.97,0,9,4.03,9,9v39.72 C116.02,123.81,112,127.84,107.03,127.84z"/>
-          <path fill="#020618" d="M234.96,127.84c-4.97,0-9-4.03-9-9V79.12c0-4.97,4.03-9,9-9h0c4.97,0,9,4.03,9,9v39.72 C243.96,123.81,239.93,127.84,234.96,127.84z"/>
-          <rect x="78.63" y="171.18" fill="#FD0E2D" width="48.05" height="48.05"/>
-          <rect x="147.51" y="171.18" fill="#FF5800" width="48.05" height="48.05"/>
-          <rect x="216.68" y="171.18" fill="#FFA306" width="48.05" height="48.05"/>
-          <rect x="147.51" y="240.09" fill="#16B100" width="48.05" height="48.05"/>
-          <rect x="147.51" y="308.99" fill="#02AD95" width="48.05" height="48.05"/>
-          <g fill="#020618">
-            <path d="M522.57,339.6c3.21,0,6.98-0.32,11.29-0.96c4.31-0.64,7.57-1.38,9.78-2.2v19c-2.3,1.01-5.85,2-10.67,2.96 c-4.82,0.96-9.71,1.45-14.67,1.45c-29.56,0-44.34-15.56-44.34-46.68v-88h-21.34v-11.84l21.62-9.92l9.92-32.22h14.74v34.7h43.65 v19.28h-43.65v87.31c0,8.72,2.09,15.42,6.27,20.11C509.33,337.26,515.14,339.6,522.57,339.6z"/>
-            <path d="M578.92,164.98c0-5.51,1.4-9.5,4.2-11.98c2.8-2.48,6.27-3.72,10.4-3.72c3.86,0,7.23,1.24,10.12,3.72 c2.89,2.48,4.34,6.47,4.34,11.98c0,5.42-1.45,9.41-4.34,11.98s-6.27,3.86-10.12,3.86c-4.13,0-7.6-1.29-10.4-3.86 C580.32,174.39,578.92,170.4,578.92,164.98z M605.64,357.09h-24.79V205.88h24.79V357.09z"/>
-            <path d="M685.13,279.28l8.4-10.74l9.64-11.57l48.34-51.09h28.92l-61.14,64.59l65.41,86.62h-29.88l-52.47-70.51 l-17.21,15.01v55.5h-24.51V142.81h24.51v111.96l-1.1,24.51H685.13z"/>
-            <path d="M843.11,357.09h-24.79V142.81h24.79V357.09z"/>
-            <path d="M962.39,359.84c-22.68,0-40.46-6.86-53.36-20.59c-12.9-13.72-19.35-32.61-19.35-56.67 c0-24.24,6.01-43.54,18.04-57.91c12.03-14.37,28.28-21.55,48.75-21.55c19,0,34.15,6.13,45.45,18.38 c11.29,12.26,16.94,28.85,16.94,49.78v15.01H915.3c0.46,17.17,4.82,30.21,13.08,39.11c8.26,8.91,19.97,13.36,35.12,13.36 c8.08,0,15.74-0.71,23-2.13c7.25-1.42,15.74-4.2,25.48-8.33v21.76c-8.36,3.58-16.21,6.11-23.55,7.57 C981.07,359.11,972.4,359.84,962.39,359.84z M956.2,223.37c-11.84,0-21.21,3.81-28.09,11.43c-6.89,7.62-10.97,18.23-12.26,31.81 h76.98c-0.19-14.14-3.44-24.88-9.78-32.22C976.71,227.04,967.76,223.37,956.2,223.37z"/>
-            <path d="M1134.7,203.13c6.7,0,12.62,0.55,17.76,1.65l-3.03,22.86c-5.6-1.28-11.06-1.93-16.39-1.93 c-7.99,0-15.4,2.2-22.24,6.61c-6.84,4.41-12.19,10.49-16.04,18.25c-3.86,7.76-5.78,16.37-5.78,25.82v80.7h-24.79V205.88h20.38 l2.75,27.68h1.1c5.78-10.01,12.62-17.58,20.52-22.72C1116.84,205.7,1125.42,203.13,1134.7,203.13z"/>
-          </g>
-        </g>
-      </svg>
-    </a>
-  </footer>
-</div>
-
-<!-- Toast Container -->
-<div id="toast" class="toast info">
-  <span id="toast-text">Notification message</span>
 </div>
 
 <script>
-  let toastTimer = null;
-  function showToast(message, type = 'info') {
-    const toast = document.getElementById('toast');
-    const text = document.getElementById('toast-text');
-    text.textContent = message;
-    toast.className = 'toast ' + type + ' show';
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3000);
-  }
+var ICON_FOLDER = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5h5l1.5 2H16v7a1 1 0 01-1 1H3a1 1 0 01-1-1v-9z"/></svg>';
+var ICON_DOC = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2H4a1.5 1.5 0 00-1.5 1.5v11A1.5 1.5 0 004 16h10a1.5 1.5 0 001.5-1.5V7l-5.5-5z"/><path d="M10 2v5h5"/></svg>';
+var ICON_TAG = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12M7 3L5 15M13 3l-2 12"/></svg>';
+var ICON_X = '<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 5l8 8M13 5l-8 8"/></svg>';
+var ICON_MORE = '<svg viewBox="0 0 18 18" fill="currentColor"><circle cx="9" cy="4" r="1.5"/><circle cx="9" cy="9" r="1.5"/><circle cx="9" cy="14" r="1.5"/></svg>';
+var ICON_SORT = '<svg class="ag-sort-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l3-3 3 3M4 8l3 3 3-3"/></svg>';
 
-  // Auto-Upload Queue Manager
-  const uploadQueue = {
-    total: 0,
-    uploaded: 0,
-    pending: 0,
-    isUploading: false
-  };
+var WORKSPACES = [
+  ['HCV - North', 'hcv'],
+  ['HCV - South', 'hcv'],
+  ['HCV - East', 'hcv'],
+  ['HCV - West', 'hcv'],
+  ['HCV - Central', 'hcv'],
+  ['Public Housing - North', 'hcv'],
+  ['Public Housing - South', 'hcv'],
+  ['Public Housing - Metro', 'hcv'],
+  ['Section 8 - Central', 'hcv'],
+  ['Project-Based Vouchers', 'hcv'],
+  ['Test v7', 'hcv'],
+  ['Procurement - Facilities', 'procurement'],
+  ['Procurement - IT', 'procurement'],
+  ['Procurement - Grounds', 'procurement'],
+  ['Procurement - General', 'procurement'],
+  ['Vendor Management', 'procurement'],
+  ['Finance - Accounts Payable', 'finance'],
+  ['Finance - Accounts Receivable', 'finance'],
+  ['Finance - Payroll', 'finance'],
+  ['Finance - Grants', 'finance'],
+  ['Finance - Audit', 'finance'],
+  ['Human Resources', 'generic'],
+  ['Facilities Management', 'generic'],
+  ['IT Services', 'generic'],
+  ['Compliance', 'generic'],
+  ['Legal', 'generic'],
+  ['Board Records', 'generic'],
+  ['Resident Services', 'generic'],
+  ['Inspections', 'generic'],
+  ['Maintenance', 'generic'],
+  ['Grants Management', 'generic'],
+  ['Communications', 'generic']
+];
 
-  function updateUploadBanner() {
-    const banner = document.getElementById('upload-banner');
-    const countText = document.getElementById('upload-banner-count');
-    const percentText = document.getElementById('upload-banner-percent');
-    const bar = document.getElementById('upload-banner-bar');
-    const title = document.getElementById('upload-banner-title');
-    const sub = document.getElementById('upload-banner-sub');
-    const headerDot = document.getElementById('header-save-dot');
-    const headerText = document.getElementById('header-save-text');
-
-    if (uploadQueue.pending > 0 || uploadQueue.isUploading) {
-      banner.className = 'upload-banner active';
-      headerDot.className = 'save-dot uploading';
-      headerText.textContent = `Uploading ${uploadQueue.pending} document${uploadQueue.pending > 1 ? 's' : ''}...`;
-
-      const progressPct = uploadQueue.total > 0
-        ? Math.round((uploadQueue.uploaded / uploadQueue.total) * 100)
-        : 0;
-
-      title.textContent = 'Uploading documents in progress...';
-      sub.textContent = 'Upload triggers automatically upon file selection. Please do not close or reload.';
-      countText.innerHTML = `<strong>${uploadQueue.uploaded} of ${uploadQueue.total}</strong> uploaded (${uploadQueue.pending} pending)`;
-      percentText.textContent = `${progressPct}%`;
-      bar.style.width = `${progressPct}%`;
-    } else if (uploadQueue.total > 0 && uploadQueue.pending === 0) {
-      // Finished all queued uploads
-      banner.className = 'upload-banner active completed-state';
-      headerDot.className = 'save-dot';
-      headerText.textContent = 'All changes saved automatically';
-
-      title.textContent = 'All selected documents uploaded successfully!';
-      sub.textContent = 'All files have been securely saved to Tikler.';
-      countText.innerHTML = `<strong>${uploadQueue.uploaded} of ${uploadQueue.total}</strong> uploaded (0 pending)`;
-      percentText.textContent = '100%';
-      bar.style.width = '100%';
-
-      setTimeout(() => {
-        if (uploadQueue.pending === 0) {
-          banner.classList.remove('active');
-          uploadQueue.total = 0;
-          uploadQueue.uploaded = 0;
-        }
-      }, 4500);
-    } else {
-      banner.className = 'upload-banner';
-      headerDot.className = 'save-dot';
-      headerText.textContent = 'All changes saved automatically';
+var POOLS = {
+  hcv: {
+    subfolderHint: 'Search by resident name, unit #, or tenant ID',
+    subfolders: [
+      'Household #10042 — Maria Alvarez',
+      'AliceFolder — Alice Johnson',
+      'Household #10087 — James Chen',
+      'Household #10123 — Priya Nair',
+      'Household #10155 — Carlos Mendoza',
+      'Household #10190 — Fatima Al-Sayed'
+    ],
+    docTypes: ['Annual recertification', 'Lease violation', 'Correspondence', 'Address Proof'],
+    supp: {
+      'Annual recertification': ['HUD-50058', 'COI'],
+      'Lease violation': ['HUD-50058'],
+      'Correspondence': ['HUD-50058', 'W-9'],
+      'Address Proof': ['House Agreement']
+    },
+    fields: {
+      'Annual recertification': {
+        tabs: [
+          {
+            tab: 'Tab 1 — Overview',
+            sections: [
+              {
+                section: 'Section 1',
+                fields: [
+                  { key: 'headOfHousehold', label: 'Head of household', type: 'text' },
+                  { key: 'dob', label: 'DOB', type: 'date', common: true },
+                  { key: 'program', label: 'Program', type: 'select', opts: ['HCV', 'PBV', 'Homeownership'] }
+                ]
+              }
+            ]
+          },
+          {
+            tab: 'Tab 2 — Recertification',
+            sections: [
+              {
+                section: 'Section 1',
+                fields: [
+                  { key: 'completedDate', label: 'Completed date', type: 'date', common: true },
+                  { key: 'effectiveDate', label: 'Effective date', type: 'date', common: true },
+                  { key: 'unitSize', label: 'Unit size', type: 'select', opts: ['0BR', '1BR', '2BR', '3BR', '4BR+'] }
+                ]
+              },
+              {
+                section: 'Section 2',
+                fields: [
+                  { key: 'incomeVerified', label: 'Income verified', type: 'select', opts: ['Yes', 'No'] }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      'Lease violation': {
+        tabs: [
+          {
+            tab: 'Overview',
+            sections: [
+              {
+                section: null,
+                fields: [
+                  { key: 'severity', label: 'Severity', type: 'select', opts: ['Minor', 'Major'], common: true },
+                  { key: 'violationDate', label: 'Violation date', type: 'date', common: true },
+                  { key: 'resolved', label: 'Resolved', type: 'select', opts: ['Yes', 'No'] }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      'Correspondence': {
+        tabs: [
+          {
+            tab: 'Overview',
+            sections: [
+              {
+                section: null,
+                fields: [
+                  { key: 'sentDate', label: 'Sent date', type: 'date', common: true },
+                  { key: 'method', label: 'Delivery method', type: 'select', opts: ['Mail', 'Email', 'Hand-delivered'] }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      'Address Proof': {
+        tabs: [
+          {
+            tab: 'Tab 1 — Overview',
+            sections: [
+              {
+                section: 'Section 1',
+                fields: [
+                  { key: 'name', label: 'Name', type: 'text', common: true },
+                  { key: 'dob2', label: 'DOB', type: 'date', common: true },
+                  { key: 'dropdownField', label: 'Dropdown field', type: 'select', opts: ['Option A', 'Option B'] }
+                ]
+              }
+            ]
+          },
+          {
+            tab: 'Tab 2',
+            sections: [
+              {
+                section: null,
+                fields: [
+                  { key: 'nickName', label: 'Nick name', type: 'text' }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  procurement: {
+    subfolderHint: 'Search by vendor name or vendor ID',
+    subfolders: [
+      'Acme Maintenance Co. (Vendor #4471)',
+      'Riverside Landscaping (Vendor #2290)',
+      'Summit Security Services (Vendor #3312)',
+      'Northgate Electrical (Vendor #1892)'
+    ],
+    docTypes: ['Contract'],
+    supp: { 'Contract': ['W-9', 'COI', 'Insurance certificate'] },
+    fields: {
+      'Contract': {
+        tabs: [
+          {
+            tab: 'Overview',
+            sections: [
+              {
+                section: 'Terms',
+                fields: [
+                  { key: 'expiration', label: 'Expiration date', type: 'date', common: true },
+                  { key: 'value', label: 'Contract value', type: 'number', common: true },
+                  { key: 'startDate', label: 'Start date', type: 'date' }
+                ]
+              },
+              {
+                section: 'Vendor',
+                fields: [
+                  { key: 'department', label: 'Department', type: 'select', opts: ['Facilities', 'IT', 'Grounds', 'Security'] },
+                  { key: 'renewalTerms', label: 'Renewal terms', type: 'select', opts: ['Auto-renew', 'Fixed term'] },
+                  { key: 'insuranceOnFile', label: 'Insurance on file', type: 'select', opts: ['Yes', 'No'] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  finance: {
+    subfolderHint: 'Search by invoice # or vendor name',
+    subfolders: [
+      'Vendor #4471 — Acme Maintenance Co.',
+      'Vendor #2290 — Riverside Landscaping',
+      'Vendor #3312 — Summit Security Services'
+    ],
+    docTypes: ['Invoice'],
+    supp: { 'Invoice': ['W-9'] },
+    fields: {
+      'Invoice': {
+        tabs: [
+          {
+            tab: 'Overview',
+            sections: [
+              {
+                section: 'Payment',
+                fields: [
+                  { key: 'status', label: 'Approval status', type: 'select', opts: ['Approved', 'Declined', 'Pending'], common: true },
+                  { key: 'invoiceDate', label: 'Invoice date', type: 'date', common: true },
+                  { key: 'amount', label: 'Amount', type: 'number', common: true },
+                  { key: 'dueDate', label: 'Due date', type: 'date' }
+                ]
+              },
+              {
+                section: 'Reference',
+                fields: [
+                  { key: 'approver', label: 'Approver', type: 'text' },
+                  { key: 'poNumber', label: 'PO number', type: 'text' },
+                  { key: 'glCode', label: 'GL code', type: 'text' },
+                  { key: 'paymentMethod', label: 'Payment method', type: 'select', opts: ['ACH', 'Check', 'Wire'] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  generic: {
+    subfolderHint: 'Search by folder name',
+    subfolders: [
+      'General Records 2025',
+      'Archived Records 2024',
+      'Board Meeting Minutes'
+    ],
+    docTypes: ['General document'],
+    supp: { 'General document': ['None'] },
+    fields: {
+      'General document': {
+        tabs: [
+          {
+            tab: 'Overview',
+            sections: [
+              {
+                section: null,
+                fields: [
+                  { key: 'createdDate', label: 'Created date', type: 'date', common: true }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   }
+};
 
-  function triggerFileInput(rowId) {
-    const input = document.getElementById(`file-input-${rowId}`);
-    if (input) {
-      input.click();
-    }
-  }
+// Initial Pristine State (Clean, no pre-population)
+var state = {
+  scope: 'active',
+  workspaces: [],
+  subfolders: [],
+  docType: '',
+  suppDoc: '',
+  metaKeys: [],
+  metaValues: {}
+};
 
-  function handleFileSelected(rowId, docName, inputElem) {
-    const file = inputElem.files && inputElem.files[0];
-    const fileName = file ? file.name : `${docName}.pdf`;
-    const fileSize = file ? (file.size / (1024 * 1024)).toFixed(1) + ' MB' : '1.4 MB';
+var isFiltersCollapsed = false;
+var isStreaming = false;
+var streamInterval = null;
+var targetTotalCount = 0;
+var elapsedSeconds = 0;
+var totalScannedFiles = 0;
 
-    // Register into upload queue
-    uploadQueue.total++;
-    uploadQueue.pending++;
-    uploadQueue.isUploading = true;
-    updateUploadBanner();
+function formatClock(sec) {
+  var m = Math.floor(sec / 60);
+  var s = Math.floor(sec % 60);
+  return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
 
-    // Update specific row to uploading state
-    const row = document.getElementById(`doc-row-${rowId}`);
-    const icon = document.getElementById(`doc-icon-${rowId}`);
-    const sub = document.getElementById(`doc-sub-${rowId}`);
-    const statusCell = document.getElementById(`status-cell-${rowId}`);
-    const actionCell = document.getElementById(`action-cell-${rowId}`);
+function poolKeyForWorkspace(ws) {
+  var e = WORKSPACES.find(function(w) { return w[0] === ws; });
+  return e ? e[1] : 'generic';
+}
 
-    if (row) row.classList.add('row-uploading');
-    if (icon) {
-      icon.className = 'doc-icon uploading';
-      icon.innerHTML = `<div class="upload-spinner" style="width: 18px; height: 18px; border-width: 2px;"></div>`;
-    }
-    if (sub) sub.textContent = `Uploading ${fileName}...`;
-    if (statusCell) {
-      statusCell.innerHTML = `<span class="status-dot uploading"></span> Uploading...`;
-    }
-    if (actionCell) {
-      actionCell.innerHTML = `<button class="btn btn-ghost is-uploading" disabled>Uploading...</button>`;
-    }
-
-    showToast(`Uploading ${docName} automatically...`, 'info');
-
-    // Simulate realistic asynchronous upload latency (15 seconds)
-    const totalDurationMs = 15000;
-    const updateIntervalMs = 200;
-    let elapsedMs = 0;
-
-    const uploadInterval = setInterval(() => {
-      elapsedMs += updateIntervalMs;
-      const progressPercent = Math.min(98, Math.round((elapsedMs / totalDurationMs) * 100));
-
-      if (sub) {
-        sub.textContent = `Uploading ${fileName} (${progressPercent}%)...`;
-      }
-      if (actionCell) {
-        actionCell.innerHTML = `<button class="btn btn-ghost is-uploading" disabled>Uploading ${progressPercent}%...</button>`;
-      }
-    }, updateIntervalMs);
-
-    setTimeout(() => {
-      clearInterval(uploadInterval);
-
-      // Mark as completed
-      uploadQueue.uploaded++;
-      uploadQueue.pending = Math.max(0, uploadQueue.pending - 1);
-      if (uploadQueue.pending === 0) {
-        uploadQueue.isUploading = false;
-      }
-      updateUploadBanner();
-
-      if (row) {
-        row.classList.remove('row-uploading');
-        const currentCat = row.getAttribute('data-category') || '';
-        row.setAttribute('data-category', currentCat.replace('pending', 'completed'));
-      }
-
-      if (icon) {
-        icon.className = 'doc-icon done';
-        icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-      }
-  function format12HrDateTime() {
-    const now = new Date();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[now.getMonth()];
-    const day = now.getDate();
-    let hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    return `${month} ${day}, ${hours}:${minutes} ${ampm}`;
-  }
-
-      if (sub) {
-        sub.textContent = `Uploaded ${format12HrDateTime()}`;
-      }
-      if (statusCell) {
-        statusCell.innerHTML = `<span class="status-dot done"></span> Completed`;
-      }
-      if (actionCell) {
-        actionCell.innerHTML = `
-          <button class="btn btn-ghost" onclick="triggerFileInput(${rowId})">Re-upload</button>
-          <button class="task-manager-row-action" title="More options" onclick="showToast('${docName} options opened', 'info')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-          </button>
-        `;
-      }
-
-      showToast(`✓ ${docName} uploaded successfully!`, 'success');
-      recalcStats();
-    }, totalDurationMs);
-  }
-
-  function handleOnlineFormStart(rowId, docName) {
-    showToast(`Opening ${docName} form in new tab...`, 'info');
-    // Simulate auto-completion of form submission after short delay
-    setTimeout(() => {
-      uploadQueue.total++;
-      uploadQueue.pending++;
-      uploadQueue.isUploading = true;
-      updateUploadBanner();
-
-      setTimeout(() => {
-        uploadQueue.uploaded++;
-        uploadQueue.pending = Math.max(0, uploadQueue.pending - 1);
-        if (uploadQueue.pending === 0) uploadQueue.isUploading = false;
-        updateUploadBanner();
-
-        const row = document.getElementById(`doc-row-${rowId}`);
-        const icon = document.getElementById(`doc-icon-${rowId}`);
-        const sub = document.getElementById(`doc-sub-${rowId}`);
-        const statusCell = document.getElementById(`status-cell-${rowId}`);
-        const actionCell = document.getElementById(`action-cell-${rowId}`);
-
-        if (row) {
-          const currentCat = row.getAttribute('data-category') || '';
-          row.setAttribute('data-category', currentCat.replace('pending', 'completed'));
-        }
-        if (icon) {
-          icon.className = 'doc-icon done';
-          icon.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-        }
-        if (sub) sub.textContent = `Submitted ${format12HrDateTime()}`;
-        if (statusCell) statusCell.innerHTML = `<span class="status-dot done"></span> Completed`;
-        if (actionCell) {
-          actionCell.innerHTML = `<button class="btn btn-ghost" onclick="showToast('Viewing submission for ${docName}...', 'info')">View response</button>`;
-        }
-
-        showToast(`✓ ${docName} form submitted successfully!`, 'success');
-        recalcStats();
-      }, 15000);
-    }, 800);
-  }
-
-  function recalcStats() {
-    const docRows = document.querySelectorAll('.doc-row');
-    const tabButtons = document.querySelectorAll('.task-manager-tabs__button');
-    const totalDocs = docRows.length;
-
-    let countAll = totalDocs;
-    let countRequired = 0;
-    let countForms = 0;
-    let countTemplates = 0;
-    let countCompleted = 0;
-    let countReqPending = 0;
-
-    docRows.forEach(row => {
-      const cat = (row.getAttribute('data-category') || '').toLowerCase();
-      const isReq = cat.includes('required');
-      const isDone = cat.includes('completed');
-      const isForm = cat.includes('forms');
-      const isTemp = cat.includes('templates');
-
-      if (isReq) countRequired++;
-      if (isForm) countForms++;
-      if (isTemp) countTemplates++;
-      if (isDone) countCompleted++;
-      if (isReq && !isDone) countReqPending++;
-    });
-
-    tabButtons.forEach(btn => {
-      const filter = btn.getAttribute('data-filter');
-      if (filter === 'all') btn.textContent = `All (${countAll})`;
-      else if (filter === 'required') btn.textContent = `Required (${countRequired})`;
-      else if (filter === 'forms') btn.textContent = `Forms (${countForms})`;
-      else if (filter === 'templates') btn.textContent = `Templates (${countTemplates})`;
-      else if (filter === 'completed') btn.textContent = `Completed (${countCompleted})`;
-    });
-
-    document.getElementById('stat-total').textContent = countAll;
-    document.getElementById('stat-req-pending').textContent = countReqPending;
-    document.getElementById('stat-forms').textContent = countForms;
-    document.getElementById('stat-templates').textContent = countTemplates;
-    document.getElementById('stat-completed').textContent = countCompleted;
-
-    const percent = Math.round((countCompleted / countAll) * 100);
-    document.getElementById('progress-percent').textContent = `${percent}%`;
-    const circle = document.getElementById('progress-circle');
-    const circumference = 201.06;
-    const offset = circumference - (percent / 100) * circumference;
-    circle.style.strokeDashoffset = offset;
-  }
-
-  // Interactive filtering & search
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabButtons = document.querySelectorAll('.task-manager-tabs__button');
-    const searchInput = document.getElementById('doc-search');
-    const docRows = document.querySelectorAll('.doc-row');
-    const footerNote = document.getElementById('footer-note');
-    const emptyState = document.getElementById('empty-state');
-
-    const totalDocs = docRows.length;
-    let currentFilter = 'all';
-    let searchQuery = '';
-
-    function applyFilters() {
-      let visibleCount = 0;
-      docRows.forEach(row => {
-        const categories = (row.getAttribute('data-category') || '').toLowerCase();
-        const titleData = (row.getAttribute('data-title') || '').toLowerCase();
-
-        let matchesTab = true;
-        if (currentFilter !== 'all') {
-          matchesTab = categories.includes(currentFilter);
-        }
-
-        let matchesSearch = true;
-        if (searchQuery.trim() !== '') {
-          matchesSearch = titleData.includes(searchQuery.toLowerCase().trim());
-        }
-
-        if (matchesTab && matchesSearch) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-
-      if (visibleCount === 0) {
-        emptyState.style.display = 'block';
-      } else {
-        emptyState.style.display = 'none';
-      }
-
-      footerNote.textContent = `Showing ${visibleCount} of ${totalDocs} documents`;
-    }
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabButtons.forEach(b => b.classList.remove('task-manager-tabs__button--active'));
-        btn.classList.add('task-manager-tabs__button--active');
-        currentFilter = btn.getAttribute('data-filter') || 'all';
-        applyFilters();
-      });
-    });
-
-    searchInput.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
-      applyFilters();
-    });
-
-    recalcStats();
-    applyFilters();
+function getSelectedPools() {
+  if (!state.workspaces.length) return [POOLS.hcv];
+  var poolsMap = {};
+  state.workspaces.forEach(function(ws) {
+    var k = poolKeyForWorkspace(ws);
+    poolsMap[k] = POOLS[k];
   });
-</script>
+  var res = Object.keys(poolsMap).map(function(k) { return poolsMap[k]; });
+  return res.length ? res : [POOLS.hcv];
+}
 
+function getFieldTree() {
+  if (!state.docType) return null;
+  var pools = getSelectedPools();
+  for (var i = 0; i < pools.length; i++) {
+    if (pools[i].fields && pools[i].fields[state.docType]) {
+      return pools[i].fields[state.docType];
+    }
+  }
+  return null;
+}
+
+function getFieldDefs() {
+  var tree = getFieldTree();
+  if (!tree) return [];
+  var flat = [];
+  tree.tabs.forEach(function(t) {
+    t.sections.forEach(function(s) {
+      s.fields.forEach(function(f) {
+        flat.push(f);
+      });
+    });
+  });
+  return flat;
+}
+
+// Cascading Handlers
+function toggleWorkspace(name) {
+  var i = state.workspaces.indexOf(name);
+  if (i > -1) {
+    state.workspaces.splice(i, 1);
+  } else {
+    state.workspaces.push(name);
+  }
+  state.subfolders = [];
+  state.docType = '';
+  state.suppDoc = '';
+  state.metaKeys = [];
+  state.metaValues = {};
+  document.getElementById('wsInput').value = '';
+  document.getElementById('subfolderInput').value = '';
+  document.getElementById('docTypeInput').value = '';
+  render();
+}
+
+function openOnly(id) {
+  document.querySelectorAll('.combo-wrap').forEach(function(w) {
+    w.classList.toggle('open', w.id === id);
+  });
+}
+
+function renderWorkspaceCombo(query) {
+  var q = (query || '').toLowerCase();
+  var html = '';
+  if (!q) {
+    html += '<div class="combo-group-label">Recently used</div>';
+    html += ['HCV - North', 'Finance - Accounts Payable', 'Procurement - Facilities'].map(comboItemHtml).join('');
+    html += '<div class="combo-group-label">All workspaces (' + WORKSPACES.length + ')</div>';
+    html += WORKSPACES.map(function(w) { return comboItemHtml(w[0]); }).join('');
+  } else {
+    var f = WORKSPACES.filter(function(w) { return w[0].toLowerCase().indexOf(q) > -1; });
+    html += f.length
+      ? f.map(function(w) { return comboItemHtml(w[0]); }).join('')
+      : '<div style="padding:10px;color:var(--ink-faint);font-size:13px">No workspaces match</div>';
+  }
+  document.getElementById('wsPanel').innerHTML = html;
+}
+
+function comboItemHtml(name) {
+  var checked = state.workspaces.indexOf(name) > -1;
+  return '<div class="combo-item" data-ws="' + name + '">' +
+    ICON_FOLDER +
+    '<span style="flex:1">' + name + '</span>' +
+    (checked ? '<span style="color:var(--accent);font-weight:600">✓</span>' : '') +
+    '</div>';
+}
+
+function renderSubfolderPanel(query) {
+  var pools = getSelectedPools();
+  var listMap = {};
+  pools.forEach(function(p) {
+    (p.subfolders || []).forEach(function(s) { listMap[s] = true; });
+  });
+  var list = Object.keys(listMap);
+  var q = (query || '').toLowerCase();
+  var filtered = q ? list.filter(function(s) { return s.toLowerCase().indexOf(q) > -1; }) : list;
+  var html = '';
+  if (!q) html += '<div class="combo-group-label">Subfolders in selected workspace</div>';
+  html += filtered.length
+    ? filtered.map(function(s) { return '<div class="combo-item" data-subfolder="' + s + '">' + s + '</div>'; }).join('')
+    : '<div style="padding:10px;color:var(--ink-faint);font-size:13px">No subfolders match</div>';
+  document.getElementById('subfolderPanel').innerHTML = html;
+}
+
+function renderDocTypePanel(query) {
+  var pools = getSelectedPools();
+  var typesMap = {};
+  pools.forEach(function(p) {
+    p.docTypes.forEach(function(t) { typesMap[t] = true; });
+  });
+  var types = Object.keys(typesMap);
+  var q = (query || '').toLowerCase();
+  var filtered = q ? types.filter(function(t) { return t.toLowerCase().indexOf(q) > -1; }) : types;
+  document.getElementById('docTypePanel').innerHTML = filtered.length
+    ? filtered.map(function(t) {
+        return '<div class="combo-item" data-doctype="' + t + '">' +
+          ICON_TAG +
+          '<span style="flex:1">' + t + '</span>' +
+          (t === state.docType ? '<span style="color:var(--accent);font-weight:600">✓</span>' : '') +
+          '</div>';
+      }).join('')
+    : '<div style="padding:10px;color:var(--ink-faint);font-size:13px">No matching document templates</div>';
+}
+
+function renderFilterPanel(query) {
+  var tree = getFieldTree();
+  var q = (query || '').toLowerCase();
+  if (!tree) {
+    document.getElementById('filterList').innerHTML = '';
+    return;
+  }
+  var html = '';
+  if (!q) {
+    var common = getFieldDefs().filter(function(f) {
+      return f.common && state.metaKeys.indexOf(f.key) === -1;
+    });
+    if (common.length) {
+      html += '<div class="combo-group-label">Frequently searched</div>' + common.map(filterItemHtml).join('');
+    }
+    tree.tabs.forEach(function(t) {
+      var tabHtml = '';
+      t.sections.forEach(function(s) {
+        var avail = s.fields.filter(function(f) {
+          return state.metaKeys.indexOf(f.key) === -1;
+        });
+        if (!avail.length) return;
+        if (s.section) tabHtml += '<div class="combo-subgroup-label">' + s.section + '</div>';
+        tabHtml += avail.map(filterItemHtml).join('');
+      });
+      if (tabHtml) {
+        html += '<div class="combo-group-label">' + t.tab + '</div>' + tabHtml;
+      }
+    });
+  } else {
+    var matches = getFieldDefs().filter(function(f) {
+      return state.metaKeys.indexOf(f.key) === -1 && f.label.toLowerCase().indexOf(q) > -1;
+    });
+    html = matches.length
+      ? matches.map(filterItemHtml).join('')
+      : '<div style="padding:10px;color:var(--ink-faint);font-size:13px">No matching fields</div>';
+  }
+  document.getElementById('filterList').innerHTML = html;
+}
+
+function filterItemHtml(f) {
+  return '<div class="combo-item" data-field="' + f.key + '">' +
+    ICON_TAG +
+    '<span style="flex:1">' + f.label + '</span>' +
+    '</div>';
+}
+
+function renderFilterRows() {
+  var defs = getFieldDefs();
+  document.getElementById('filterRows').innerHTML = state.metaKeys.map(function(key) {
+    var f = defs.find(function(x) { return x.key === key; });
+    if (!f) return '';
+    var control = '';
+    if (f.type === 'select') {
+      var opts = f.opts.map(function(o) {
+        return '<option value="' + o + '"' + (state.metaValues[key] === o ? ' selected' : '') + '>' + o + '</option>';
+      }).join('');
+      control = '<select data-key="' + key + '"><option value="">Any</option>' + opts + '</select>';
+    } else {
+      control = '<input class="mono" type="' + f.type + '" data-key="' + key + '" value="' + (state.metaValues[key] || '') + '">';
+    }
+    return '<div class="filter-row">' +
+      '<div class="field"><label>' + f.label + '</label>' + control + '</div>' +
+      '<span class="remove-x" data-remove="' + key + '">' + ICON_X + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+function computeCount() {
+  var str = JSON.stringify(state);
+  var h = 0;
+  for (var i = 0; i < str.length; i++) {
+    h = ((h * 31) + str.charCodeAt(i)) >>> 0;
+  }
+  return 85 + (h % 220);
+}
+
+function renderAgGridHeaders() {
+  var dt = state.docType || 'Document';
+  var defs = getFieldDefs();
+  var extra = dt ? state.metaKeys.map(function(k) {
+    return defs.find(function(f) { return f.key === k; });
+  }).filter(Boolean) : [];
+
+  var headers = [
+    { label: 'Document Record', flex: '2.5' },
+    { label: 'Workspace', flex: '1.5' },
+    { label: 'Template', flex: '1.5' }
+  ];
+  extra.forEach(function(f) {
+    headers.push({ label: f.label, flex: '1.2' });
+  });
+  headers.push({ label: 'Modified Date', flex: '1.2' });
+  headers.push({ label: '', flex: '0.4' }); // Action column
+
+  document.getElementById('agHeaderRow').innerHTML = headers.map(function(h) {
+    return '<div class="ag-header-cell' + (h.label ? ' sortable' : '') + '" style="flex:' + h.flex + '">' +
+      '<span>' + h.label + '</span>' +
+      (h.label ? ICON_SORT : '') +
+      '</div>';
+  }).join('');
+}
+
+function sampleDate(i) {
+  var d = new Date(2025, 5, 1 + i * 4);
+  return d.toISOString().slice(0, 10);
+}
+
+function sampleFieldValue(f, i) {
+  if (f.key === 'headOfHousehold') {
+    return ['Maria Alvarez', 'Alice Johnson', 'James Chen', 'Priya Nair', 'Carlos Mendoza', 'Fatima Al-Sayed', 'Devon Brooks', 'Elena Rostov', 'Marcus Vance', 'Sunita Rao', 'Kofi Mensah', 'Hannah Schmidt'][i % 12];
+  }
+  if (f.key === 'program') {
+    return ['HCV', 'PBV', 'HCV', 'Homeownership', 'HCV', 'PBV'][i % 6];
+  }
+  if (f.key === 'effectiveDate') {
+    return sampleDate(i);
+  }
+  if (f.type === 'select') return f.opts[i % f.opts.length];
+  if (f.type === 'number') return '$' + (1200 + i * 4300).toLocaleString();
+  if (f.type === 'date') return sampleDate(i + 2);
+  return 'Sample value ' + (i + 1);
+}
+
+function badgeClass(v) {
+  var s = (v || '').toLowerCase();
+  if (s === 'approved' || s === 'hcv') return 'approved';
+  if (s === 'declined') return 'declined';
+  if (s === 'pending' || s === 'minor' || s === 'pbv') return 'pending';
+  return '';
+}
+
+function buildAgGridRow(i) {
+  var wsList = state.workspaces.length ? state.workspaces : WORKSPACES.slice(0, 4).map(function(w) { return w[0]; });
+  var ws = wsList[i % wsList.length];
+  var dt = state.docType || 'Annual recertification';
+  var defs = getFieldDefs();
+  var extra = dt ? state.metaKeys.map(function(k) {
+    return defs.find(function(f) { return f.key === k; });
+  }).filter(Boolean) : [];
+
+  var names = ['Maria Alvarez (Unit 4B)', 'Alice Johnson (Unit 12A)', 'James Chen (Unit 301)', 'Priya Nair (Unit 14)', 'Carlos Mendoza (Unit 8C)', 'Fatima Al-Sayed (Unit 22)', 'Devon Brooks (Unit 5A)', 'Elena Rostov (Unit 19B)', 'Marcus Vance (Unit 302)', 'Sunita Rao (Unit 11)'];
+  var docTitle = (state.subfolders.length ? state.subfolders[0] : 'Household #1004' + i) + ' — ' + (names[i % names.length]);
+
+  var cells = '<div class="ag-cell ag-cell-doc" style="flex:2.5">' +
+    ICON_DOC +
+    '<span>' + docTitle + '</span>' +
+    '</div>' +
+    '<div class="ag-cell" style="flex:1.5;color:var(--ink-soft)">' + ws + '</div>' +
+    '<div class="ag-cell" style="flex:1.5;color:var(--ink-soft)">' + dt + '</div>';
+
+  extra.forEach(function(f) {
+    var v = sampleFieldValue(f, i);
+    var content = (f.type === 'select')
+      ? '<span class="badge ' + badgeClass(v) + '">' + v + '</span>'
+      : '<span class="mono">' + v + '</span>';
+    cells += '<div class="ag-cell" style="flex:1.2">' + content + '</div>';
+  });
+
+  cells += '<div class="ag-cell mono" style="flex:1.2;color:var(--ink-muted)">' + sampleDate(i) + '</div>';
+  cells += '<div class="ag-cell" style="flex:0.4;justify-content:center"><button class="ag-row-action-btn" title="Options">' + ICON_MORE + '</button></div>';
+
+  return '<div class="ag-row streamed-row">' + cells + '</div>';
+}
+
+// WebSocket Streaming Engine
+function startWebSocketStream() {
+  if (isStreaming) return;
+  isStreaming = true;
+  targetTotalCount = computeCount();
+  elapsedSeconds = 0;
+  totalScannedFiles = 0;
+
+  var simulatedDuration = 18;
+  var tickIntervalMs = 1000;
+
+  // Show AG-Grid and table toolbar controls, hide empty state
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('agGridContainer').style.display = 'block';
+  document.getElementById('gridSearchWrap').style.display = 'flex';
+  document.getElementById('tableExportBtn').style.display = 'inline-flex';
+
+  // Update UI to Streaming State
+  document.getElementById('progressBarWrap').classList.add('active');
+  document.getElementById('progressStatusStrip').classList.add('active');
+  document.getElementById('stopStreamBtn').style.display = 'inline-flex';
+  document.getElementById('primarySearchBtn').style.display = 'none';
+  document.getElementById('tallyTiming').style.display = 'none';
+
+  // Auto-collapse filter card to give full focus to AG Grid
+  setCollapseState(true);
+
+  renderAgGridHeaders();
+  document.getElementById('agGridBody').innerHTML = '';
+  document.getElementById('tallyCount').textContent = '0000';
+  document.getElementById('tallyCount').classList.add('streaming');
+  document.getElementById('resultsSub').textContent = 'Connecting WebSocket stream & indexing repository...';
+
+  var rowAddIndex = 0;
+
+  streamInterval = setInterval(function() {
+    if (!isStreaming) {
+      clearInterval(streamInterval);
+      return;
+    }
+
+    elapsedSeconds++;
+    var progressPct = Math.min(100, Math.round((elapsedSeconds / simulatedDuration) * 100));
+    totalScannedFiles += 140;
+
+    // Stream a new document row into AG-Grid
+    if (elapsedSeconds % 2 === 0 && rowAddIndex < 10) {
+      var rowHtml = buildAgGridRow(rowAddIndex);
+      document.getElementById('agGridBody').insertAdjacentHTML('beforeend', rowHtml);
+      rowAddIndex++;
+    }
+
+    var currentFoundCount = Math.round((progressPct / 100) * targetTotalCount);
+    document.getElementById('tallyCount').textContent = String(currentFoundCount).padStart(4, '0');
+
+    // Dynamic descriptive server stages
+    var stageMsg = '';
+    if (progressPct < 20) {
+      stageMsg = 'Indexing workspace & verifying permissions (' + totalScannedFiles + ' files scanned)...';
+    } else if (progressPct < 50) {
+      stageMsg = 'Traversing subfolders & matching template schema (' + totalScannedFiles + ' files scanned)...';
+    } else if (progressPct < 80) {
+      stageMsg = 'Evaluating metadata fields & supporting documents (' + totalScannedFiles + ' files scanned)...';
+    } else if (progressPct < 98) {
+      stageMsg = 'Streaming document matches over WebSocket (' + totalScannedFiles + ' files scanned)...';
+    } else {
+      stageMsg = 'Finalizing document stream & sorting...';
+    }
+
+    document.getElementById('progressBarFill').style.width = progressPct + '%';
+    document.getElementById('progressPercentText').textContent = progressPct + '% (' + formatClock(elapsedSeconds) + ')';
+    document.getElementById('progressStatusText').textContent = stageMsg;
+
+    var currentDisplayCount = document.getElementById('agGridBody').children.length;
+    document.getElementById('resultsSub').textContent = 'Live Streaming: ' + currentDisplayCount + ' retrieved upfront (' + currentFoundCount + ' found of ' + targetTotalCount + ')';
+    document.getElementById('agFooterInfo').textContent = 'Showing 1 to ' + currentDisplayCount + ' of ' + targetTotalCount + ' matching documents';
+
+    if (elapsedSeconds >= simulatedDuration) {
+      clearInterval(streamInterval);
+      completeWebSocketStream(false, elapsedSeconds);
+    }
+  }, tickIntervalMs);
+}
+
+function stopWebSocketStream() {
+  if (!isStreaming) return;
+  clearInterval(streamInterval);
+  isStreaming = false;
+
+  document.getElementById('progressBarWrap').classList.remove('active');
+  document.getElementById('progressStatusStrip').classList.remove('active');
+  document.getElementById('stopStreamBtn').style.display = 'none';
+  document.getElementById('primarySearchBtn').style.display = 'inline-flex';
+  document.getElementById('tallyCount').classList.remove('streaming');
+  document.getElementById('tallyTiming').style.display = 'inline-block';
+  document.getElementById('tallyTiming').textContent = '■ Stopped at ' + formatClock(elapsedSeconds);
+  document.getElementById('tallyTiming').style.background = '#fef2f2';
+  document.getElementById('tallyTiming').style.color = '#ef4444';
+  document.getElementById('tallyTiming').style.borderColor = '#fecaca';
+
+  var rowCount = document.getElementById('agGridBody').children.length;
+  document.getElementById('resultsSub').textContent = 'Streaming stopped by user — displaying ' + rowCount + ' documents retrieved upfront.';
+  document.getElementById('agFooterInfo').textContent = 'Showing ' + rowCount + ' documents retrieved before streaming was stopped.';
+}
+
+function completeWebSocketStream(wasStopped, totalSec) {
+  isStreaming = false;
+  document.getElementById('progressBarWrap').classList.remove('active');
+  document.getElementById('progressStatusStrip').classList.remove('active');
+  document.getElementById('stopStreamBtn').style.display = 'none';
+  document.getElementById('primarySearchBtn').style.display = 'inline-flex';
+  document.getElementById('tallyCount').classList.remove('streaming');
+  document.getElementById('tallyCount').textContent = String(targetTotalCount).padStart(4, '0');
+  document.getElementById('tallyTiming').style.display = 'inline-block';
+  document.getElementById('tallyTiming').textContent = '✓ ' + formatClock(totalSec);
+  document.getElementById('tallyTiming').style.background = 'var(--success-soft)';
+  document.getElementById('tallyTiming').style.color = 'var(--success)';
+  document.getElementById('tallyTiming').style.borderColor = 'var(--success-border)';
+
+  var rowCount = document.getElementById('agGridBody').children.length;
+  document.getElementById('resultsSub').textContent = 'Search completed (' + formatClock(totalSec) + ') — showing ' + rowCount + ' matching documents sorted by modified date';
+  document.getElementById('agFooterInfo').textContent = 'Showing 1 to ' + rowCount + ' of ' + targetTotalCount + ' matching documents';
+}
+
+function renderWsChips() {
+  document.getElementById('wsChips').innerHTML = state.workspaces.map(function(n) {
+    return '<span class="chip sel">' + n + '<span class="pill-x" data-remove-ws="' + n + '">' + ICON_X + '</span></span>';
+  }).join('');
+}
+
+function renderSubfolderChips() {
+  document.getElementById('subfolderChips').innerHTML = state.subfolders.map(function(n) {
+    return '<span class="chip sel">' + n + '<span class="pill-x" data-remove-subfolder="' + n + '">' + ICON_X + '</span></span>';
+  }).join('');
+}
+
+function updateCollapsedSummary() {
+  var count = 0;
+  var chipsHtml = '<span class="summary-chip">Scope: <b>' + state.scope.charAt(0).toUpperCase() + state.scope.slice(1) + '</b></span>';
+  count++;
+
+  if (state.workspaces.length) {
+    count += state.workspaces.length;
+    chipsHtml += '<span class="summary-chip">Workspace: <b>' + state.workspaces.join(', ') + '</b></span>';
+  }
+  if (state.subfolders.length) {
+    count += state.subfolders.length;
+    chipsHtml += '<span class="summary-chip">Subfolder: <b>' + state.subfolders.join(', ') + '</b></span>';
+  }
+  if (state.docType) {
+    count += 1;
+    chipsHtml += '<span class="summary-chip">Template: <b>' + state.docType + '</b></span>';
+  }
+  if (state.suppDoc) {
+    count += 1;
+    chipsHtml += '<span class="summary-chip">Supporting Doc: <b>' + state.suppDoc + '</b></span>';
+  }
+  if (state.metaKeys.length) {
+    count += state.metaKeys.length;
+    chipsHtml += '<span class="summary-chip">Fields: <b>' + state.metaKeys.length + ' filters</b></span>';
+  }
+
+  document.getElementById('filterCountBadge').textContent = count + (count === 1 ? ' filter active' : ' filters active');
+  document.getElementById('summaryChipsWrap').innerHTML = chipsHtml;
+}
+
+function setCollapseState(collapsed) {
+  isFiltersCollapsed = collapsed;
+  var card = document.getElementById('searchCard');
+  card.classList.toggle('collapsed', isFiltersCollapsed);
+  document.getElementById('collapseToggleText').textContent = isFiltersCollapsed ? 'Expand' : 'Collapse';
+}
+
+function render() {
+  document.querySelectorAll('#scopeSeg button').forEach(function(b) {
+    b.classList.toggle('sel', b.dataset.scope === state.scope);
+  });
+
+  renderWsChips();
+  var hasWs = state.workspaces.length > 0;
+  document.getElementById('dot2').className = 'dot' + (hasWs ? ' done' : ' reachable');
+  document.getElementById('step3').classList.toggle('locked', !hasWs);
+  document.getElementById('step4').classList.toggle('locked', !hasWs);
+
+  renderSubfolderChips();
+  document.getElementById('dot3').className = 'dot' + (!hasWs ? '' : (state.subfolders.length ? ' done' : ' reachable'));
+
+  var pools = getSelectedPools();
+  if (hasWs) document.getElementById('subfolderInput').placeholder = pools[0].subfolderHint;
+  document.getElementById('docTypeInput').value = state.docType;
+  document.getElementById('dot4').className = 'dot' + (!hasWs ? '' : (state.docType ? ' done' : ' reachable'));
+
+  var suppField = document.getElementById('suppField');
+  if (state.docType) {
+    suppField.style.display = 'flex';
+    var suppMap = {};
+    pools.forEach(function(p) {
+      var arr = (p.supp && p.supp[state.docType]) || [];
+      arr.forEach(function(item) { suppMap[item] = true; });
+    });
+    var opts = Object.keys(suppMap);
+    document.getElementById('suppDocSelect').innerHTML = '<option value="">Any</option>' +
+      opts.map(function(o) {
+        return '<option value="' + o + '"' + (o === state.suppDoc ? ' selected' : '') + '>' + o + '</option>';
+      }).join('');
+  } else {
+    suppField.style.display = 'none';
+  }
+
+  var fieldDefs = getFieldDefs();
+  document.getElementById('step5').classList.toggle('locked', !state.docType);
+  document.getElementById('fieldsHint').textContent = state.docType
+    ? (fieldDefs.length ? 'Search this template’s ' + fieldDefs.length + ' fields, organized by tab and section — only the ones you add become result columns.' : 'This document type has no additional fields.')
+    : '';
+  renderFilterRows();
+  document.getElementById('addFilterBtn').style.display = (state.docType && fieldDefs.length) ? 'inline-flex' : 'none';
+  document.getElementById('dot5').className = 'dot' + ((!state.docType || !fieldDefs.length) ? '' : (state.metaKeys.length ? ' done' : ' reachable'));
+
+  updateCollapsedSummary();
+}
+
+function renderSaved() {
+  var items = [
+    { name: 'Annual recerts — 2025', count: 214, color: 'var(--accent)' },
+    { name: 'Vendor contracts expiring', count: 18, color: 'var(--warn)' },
+    { name: 'Declined invoices', count: 42, color: 'var(--danger)' }
+  ];
+  document.getElementById('savedList').innerHTML = items.map(function(it, idx) {
+    return '<div class="saved-item' + (idx === 0 ? ' active' : '') + '" style="--dot:' + it.color + '">' +
+      '<span class="saved-name">' + it.name + '</span>' +
+      '<span class="saved-count">' + it.count + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+// Event Listeners for Cascading Setup
+document.getElementById('scopeSeg').addEventListener('click', function(e) {
+  var b = e.target.closest('button');
+  if (!b) return;
+  state.scope = b.dataset.scope;
+  render();
+});
+
+document.getElementById('wsInput').addEventListener('focus', function() {
+  openOnly('wsCombo');
+  renderWorkspaceCombo(document.getElementById('wsInput').value);
+});
+document.getElementById('wsInput').addEventListener('input', function(e) {
+  renderWorkspaceCombo(e.target.value);
+});
+document.getElementById('wsPanel').addEventListener('click', function(e) {
+  var it = e.target.closest('.combo-item');
+  if (!it) return;
+  toggleWorkspace(it.dataset.ws);
+  renderWorkspaceCombo(document.getElementById('wsInput').value);
+});
+document.getElementById('wsChips').addEventListener('click', function(e) {
+  var x = e.target.closest('[data-remove-ws]');
+  if (!x) return;
+  toggleWorkspace(x.dataset.removeWs);
+});
+
+document.getElementById('subfolderInput').addEventListener('focus', function() {
+  openOnly('subfolderCombo');
+  renderSubfolderPanel(document.getElementById('subfolderInput').value);
+});
+document.getElementById('subfolderInput').addEventListener('input', function(e) {
+  renderSubfolderPanel(e.target.value);
+});
+document.getElementById('subfolderPanel').addEventListener('click', function(e) {
+  var it = e.target.closest('.combo-item');
+  if (!it) return;
+  if (state.subfolders.indexOf(it.dataset.subfolder) === -1) {
+    state.subfolders.push(it.dataset.subfolder);
+  }
+  document.getElementById('subfolderInput').value = '';
+  document.getElementById('subfolderCombo').classList.remove('open');
+  state.docType = '';
+  state.suppDoc = '';
+  state.metaKeys = [];
+  state.metaValues = {};
+  render();
+});
+document.getElementById('subfolderChips').addEventListener('click', function(e) {
+  var x = e.target.closest('[data-remove-subfolder]');
+  if (!x) return;
+  state.subfolders = state.subfolders.filter(function(v) { return v !== x.dataset.removeSubfolder; });
+  render();
+});
+
+document.getElementById('docTypeInput').addEventListener('focus', function() {
+  openOnly('docTypeCombo');
+  renderDocTypePanel(document.getElementById('docTypeInput').value);
+});
+document.getElementById('docTypeInput').addEventListener('input', function(e) {
+  renderDocTypePanel(e.target.value);
+});
+document.getElementById('docTypePanel').addEventListener('click', function(e) {
+  var it = e.target.closest('.combo-item');
+  if (!it) return;
+  state.docType = it.dataset.doctype;
+  state.suppDoc = '';
+  state.metaKeys = [];
+  state.metaValues = {};
+  document.getElementById('docTypeCombo').classList.remove('open');
+  render();
+});
+document.getElementById('suppDocSelect').addEventListener('change', function(e) {
+  state.suppDoc = e.target.value;
+  updateCollapsedSummary();
+});
+
+document.getElementById('addFilterBtn').addEventListener('click', function() {
+  var wrap = document.getElementById('filterCombo');
+  var willOpen = !wrap.classList.contains('open');
+  openOnly(willOpen ? 'filterCombo' : '');
+  if (willOpen) {
+    document.getElementById('filterSearch').value = '';
+    renderFilterPanel('');
+    document.getElementById('filterSearch').focus();
+  }
+});
+document.getElementById('filterSearch').addEventListener('input', function(e) {
+  renderFilterPanel(e.target.value);
+});
+document.getElementById('filterList').addEventListener('click', function(e) {
+  var it = e.target.closest('.combo-item');
+  if (!it) return;
+  if (state.metaKeys.indexOf(it.dataset.field) === -1) {
+    state.metaKeys.push(it.dataset.field);
+    state.metaValues[it.dataset.field] = '';
+  }
+  document.getElementById('filterCombo').classList.remove('open');
+  render();
+});
+
+function onFilterValueChange(e) {
+  var k = e.target.dataset.key;
+  if (!k) return;
+  state.metaValues[k] = e.target.value;
+}
+document.getElementById('filterRows').addEventListener('input', onFilterValueChange);
+document.getElementById('filterRows').addEventListener('change', onFilterValueChange);
+document.getElementById('filterRows').addEventListener('click', function(e) {
+  var x = e.target.closest('.remove-x');
+  if (!x) return;
+  state.metaKeys = state.metaKeys.filter(function(k) { return k !== x.dataset.remove; });
+  delete state.metaValues[x.dataset.remove];
+  render();
+});
+
+// Single Primary Search Button Action
+document.getElementById('primarySearchBtn').addEventListener('click', function() {
+  startWebSocketStream();
+});
+
+// Stop Streaming Button Action
+document.getElementById('stopStreamBtn').addEventListener('click', function() {
+  stopWebSocketStream();
+});
+
+document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+  state = {
+    scope: 'active',
+    workspaces: [],
+    subfolders: [],
+    docType: '',
+    suppDoc: '',
+    metaKeys: [],
+    metaValues: {}
+  };
+  document.getElementById('wsInput').value = '';
+  document.getElementById('subfolderInput').value = '';
+  document.getElementById('docTypeInput').value = '';
+  render();
+});
+
+document.getElementById('newSearchBtn').addEventListener('click', function() {
+  state = {
+    scope: 'active',
+    workspaces: [],
+    subfolders: [],
+    docType: '',
+    suppDoc: '',
+    metaKeys: [],
+    metaValues: {}
+  };
+  document.getElementById('wsInput').value = '';
+  document.getElementById('subfolderInput').value = '';
+  document.getElementById('docTypeInput').value = '';
+  setCollapseState(false);
+  render();
+  // Reset results area to empty state
+  if (isStreaming) stopWebSocketStream();
+  document.getElementById('emptyState').style.display = 'flex';
+  document.getElementById('agGridContainer').style.display = 'none';
+  document.getElementById('gridSearchWrap').style.display = 'none';
+  document.getElementById('tableExportBtn').style.display = 'none';
+  document.getElementById('tallyCount').textContent = '0000';
+  document.getElementById('tallyTiming').textContent = 'Ready';
+  document.getElementById('tallyTiming').style.background = 'var(--success-soft)';
+  document.getElementById('tallyTiming').style.color = 'var(--success)';
+  document.getElementById('tallyTiming').style.borderColor = 'var(--success-border)';
+  document.getElementById('resultsSub').textContent = 'Configure filters and click "Search documents" to begin';
+});
+
+// Collapse / Expand toggle
+document.getElementById('cardHeader').addEventListener('click', function(e) {
+  setCollapseState(!isFiltersCollapsed);
+});
+document.getElementById('editFiltersBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  setCollapseState(false);
+});
+
+document.addEventListener('click', function(e) {
+  document.querySelectorAll('.combo-wrap.open').forEach(function(w) {
+    if (!w.contains(e.target)) w.classList.remove('open');
+  });
+});
+document.getElementById('saveBtn').addEventListener('click', function() {
+  alert('Search criteria successfully saved to your Saved Searches.');
+});
+
+// Table Export Button Handler
+document.getElementById('tableExportBtn').addEventListener('click', function() {
+  alert('Preparing CSV export of matching documents from AG-Grid...');
+});
+
+// Quick in-table filter input
+document.getElementById('gridFilterInput').addEventListener('input', function(e) {
+  var q = e.target.value.toLowerCase();
+  var rows = document.querySelectorAll('#agGridBody .ag-row');
+  rows.forEach(function(r) {
+    r.style.display = r.textContent.toLowerCase().indexOf(q) > -1 ? 'flex' : 'none';
+  });
+});
+
+// Initial boot
+renderSaved();
+render();
+</script>
 </body>
 </html>
